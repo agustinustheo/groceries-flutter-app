@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
         appBarColor: Colors.blue[400],
         addBackButton: false,
       ),
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[

@@ -1,5 +1,6 @@
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/ui/cart/cart.dart';
+import 'package:diantaraja_mobile/ui/home/products_page.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 
@@ -27,8 +28,15 @@ class _CustomAppBarState extends State<CustomAppBar>{
       backgroundColor: widget.appBarColor,
       automaticallyImplyLeading: widget.addBackButton,
       leading: IconButton(
-        icon: Icon(Icons.menu),
-        onPressed: () => Scaffold.of(context).openDrawer(),
+        icon: widget.addBackButton ? Icon(Icons.arrow_back_ios_rounded) : Icon(Icons.menu),
+        onPressed: (){
+          if(Scaffold.of(context).hasDrawer){
+            Scaffold.of(context).openDrawer();
+          }
+          else if(widget.addBackButton){
+            Navigator.of(context).pop();
+          }
+        },
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -39,7 +47,7 @@ class _CustomAppBarState extends State<CustomAppBar>{
       actions: <Widget>[
         InkWell(
           onTap: () {
-
+            Navigation.intent(context, ProductsPage());
           },
           child: Container(
             margin: EdgeInsets.only(right: Sizes.dp25(context)),
