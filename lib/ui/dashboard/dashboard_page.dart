@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:diantaraja_mobile/common/common.dart';
 import 'package:diantaraja_mobile/widget/alert_dialog/pop_up_exit_apps.dart';
 import '../home/home_page.dart';
 

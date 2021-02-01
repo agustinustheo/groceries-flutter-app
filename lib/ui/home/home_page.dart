@@ -11,7 +11,6 @@ import 'package:diantaraja_mobile/widget/alert_dialog/pop_up_banner.dart';
 import 'package:diantaraja_mobile/widget/app_bar/app_bar_home.dart';
 import 'package:diantaraja_mobile/widget/banner/banner_home.dart';
 import 'package:diantaraja_mobile/widget/card/card_list_shop.dart';
-import 'package:diantaraja_mobile/widget/filter/list_filter.dart';
 import 'package:diantaraja_mobile/widget/header/space_header.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -106,91 +105,88 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Scaffold(
-          appBar: CustomAppBar(
-            appBarColor: Colors.blue[400],
-            addBackButton: false,
-          ),
-          backgroundColor: Colors.transparent,
-          body: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  backgroundColor: Colors.white,
-                  expandedHeight: Sizes.width(context) / 3,
-                  pinned: false,
-                  floating: true,
-                  forceElevated: innerBoxIsScrolled,
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            _showBannerDialog();
-                          },
-                          child: Hero(
-                            tag: 'banner-hero',
-                            child: BannerHome(),
-                          ),
-                        ),
-                      ],
+    return Scaffold(
+      drawer: Drawer(),
+      appBar: CustomAppBar(
+        appBarColor: Colors.blue[400],
+        addBackButton: false,
+      ),
+      backgroundColor: Colors.transparent,
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: Colors.white,
+              expandedHeight: Sizes.width(context) / 3,
+              pinned: false,
+              floating: true,
+              leading: Container(),
+              forceElevated: innerBoxIsScrolled,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        _showBannerDialog();
+                      },
+                      child: Hero(
+                        tag: 'banner-hero',
+                        child: BannerHome(),
+                      ),
                     ),
-                  ),
-                ),
-              ];
-            },
-            body: Container(
-              color: Colors.transparent,
-              height: Sizes.height(context),
-              width: Sizes.width(context),
-              child: EasyRefresh(
-                header: SpaceHeader(),
-                onRefresh: () async {},
-                onLoad: null,
-                child: StreamBuilder(
-                  stream: bloc_product.allProduct,
-                  builder: (context, AsyncSnapshot<ListProduct> snapshot) {
-                    if (snapshot.hasData) {
-                      return StaggeredGridView.countBuilder(
-                        shrinkWrap: true,
-                        primary: false,
-                        crossAxisCount: 4,
-                        mainAxisSpacing: 4.0,
-                        crossAxisSpacing: 4.0,
-                        itemCount: snapshot.data.listProduct.length,
-                        itemBuilder: (context, index) {
-                          return CardListShop(
-                            width: snapshot.data.listProduct[index].width,
-                            height: snapshot.data.listProduct[index].height,
-                            urlProductImage: snapshot.data.listProduct[index].productImage,
-                            urlBrandImage: snapshot.data.listProduct[index].brandImage,
-                            productName: snapshot.data.listProduct[index].itemName,
-                            price: snapshot.data.listProduct[index].price.toString(),
-                          );
-                        },
-                        staggeredTileBuilder: (index) => StaggeredTile.fit(2),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text(
-                        snapshot.error.toString(),
-                        style: TextStyle(color: Colors.red),
-                      );
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
+                  ],
                 ),
               ),
             ),
+          ];
+        },
+        body: Container(
+          color: Colors.transparent,
+          height: Sizes.height(context),
+          width: Sizes.width(context),
+          child: EasyRefresh(
+            header: SpaceHeader(),
+            onRefresh: () async {},
+            onLoad: null,
+            child: StreamBuilder(
+              stream: bloc_product.allProduct,
+              builder: (context, AsyncSnapshot<ListProduct> snapshot) {
+                if (snapshot.hasData) {
+                  return StaggeredGridView.countBuilder(
+                    shrinkWrap: true,
+                    primary: false,
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 4.0,
+                    crossAxisSpacing: 4.0,
+                    itemCount: snapshot.data.listProduct.length,
+                    itemBuilder: (context, index) {
+                      return CardListShop(
+                        width: snapshot.data.listProduct[index].width,
+                        height: snapshot.data.listProduct[index].height,
+                        urlProductImage: snapshot.data.listProduct[index].productImage,
+                        urlBrandImage: snapshot.data.listProduct[index].brandImage,
+                        productName: snapshot.data.listProduct[index].itemName,
+                        price: snapshot.data.listProduct[index].price.toString(),
+                      );
+                    },
+                    staggeredTileBuilder: (index) => StaggeredTile.fit(2),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text(
+                    snapshot.error.toString(),
+                    style: TextStyle(color: Colors.red),
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

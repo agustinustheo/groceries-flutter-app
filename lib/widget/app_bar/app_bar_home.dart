@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
-import 'package:diantaraja_mobile/common/string_image_asset.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   CustomAppBar({Key key, this.addBackButton, this.appBarColor}) : preferredSize = Size.fromHeight(kToolbarHeight), super(key: key);
@@ -25,6 +24,15 @@ class _CustomAppBarState extends State<CustomAppBar>{
     return AppBar(
       backgroundColor: widget.appBarColor,
       automaticallyImplyLeading: widget.addBackButton,
+      leading: IconButton(
+        icon: Icon(Icons.menu),
+        onPressed: () => Scaffold.of(context).openDrawer(),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(10),
+        ),
+      ),
       elevation: 0,
       actions: <Widget>[
         InkWell(

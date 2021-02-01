@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:diantaraja_mobile/ui/dashboard/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:diantaraja_mobile/common/string_image_asset.dart';
-import 'package:diantaraja_mobile/ui/login/login_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -25,7 +25,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void goToHome() {
-    Navigation.intentWithoutBack(context, LoginPage());
+    Navigation.intentWithoutBack(context, DashBoardPage());
   }
 
   @override
