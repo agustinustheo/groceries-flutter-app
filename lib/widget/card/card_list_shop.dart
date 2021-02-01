@@ -1,3 +1,4 @@
+import 'package:diantaraja_mobile/ui/cart/cart.dart';
 import 'package:diantaraja_mobile/ui/cart/delivery.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
@@ -18,7 +19,7 @@ class CardListShop extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigation.intent(context, DeliveryPage());
+        Navigation.intent(context, CartPage());
       },
       child: Container(
         padding: EdgeInsets.all(Sizes.dp4(context)),

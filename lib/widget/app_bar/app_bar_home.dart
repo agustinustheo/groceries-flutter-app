@@ -1,3 +1,5 @@
+import 'package:diantaraja_mobile/common/navigation.dart';
+import 'package:diantaraja_mobile/ui/cart/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 
@@ -89,7 +91,7 @@ class _CustomAppBarState extends State<CustomAppBar>{
         ),
         InkWell(
           onTap: () {
-
+            Navigation.intent(context, CartPage());
           },
           child: Container(
             margin: EdgeInsets.only(right: Sizes.dp14(context)),
