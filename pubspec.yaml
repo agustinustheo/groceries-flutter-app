@@ -94,8 +94,23 @@ flutter:
      - family: MyFlutterApp
        fonts:
          - asset: assets/icons/CustomIcons.ttf
+     - family: Montserrat
+       fonts:
+         - asset: assets/fonts/Montserrat-Light.ttf
+         - asset: assets/fonts/Montserrat-Medium.ttf
+         - asset: assets/fonts/Montserrat-Regular.ttf
+         - asset: assets/fonts/Montserrat-SemiBold.ttf
+         - asset: assets/fonts/Montserrat-Bold.ttf
+           weight: 700
+         - asset: assets/fonts/Montserrat-ExtraBold.ttf
+         - asset: assets/fonts/Montserrat-BlackItalic.ttf
+         - asset: assets/fonts/Montserrat-Black.ttf
      - family: Quicksand
        fonts:
+         - asset: assets/fonts/Quicksand-Light.ttf
+         - asset: assets/fonts/Quicksand-Medium.ttf
+         - asset: assets/fonts/Quicksand-Regular.ttf
          - asset: assets/fonts/Quicksand-SemiBold.ttf
+           weight: 600
          - asset: assets/fonts/Quicksand-Bold.ttf
            weight: 700

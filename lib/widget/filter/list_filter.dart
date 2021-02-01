@@ -27,7 +27,7 @@ class ListFilterFood extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
-                      fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                      fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                 ),
               ],
             ),
@@ -49,7 +49,7 @@ class ListFilterFood extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
-                      fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                      fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                 ),
               ],
             ),
@@ -71,7 +71,7 @@ class ListFilterFood extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
-                      fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                      fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                 ),
               ],
             ),
@@ -93,7 +93,7 @@ class ListFilterFood extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
-                      fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                      fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                 ),
               ],
             ),
@@ -115,7 +115,7 @@ class ListFilterFood extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
-                      fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                      fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                 ),
               ],
             ),
@@ -137,7 +137,7 @@ class ListFilterFood extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
-                      fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                      fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                 ),
               ],
             ),
@@ -159,7 +159,7 @@ class ListFilterFood extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
-                      fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                      fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                 ),
               ],
             ),
@@ -181,7 +181,7 @@ class ListFilterFood extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
-                      fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                      fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                 ),
               ],
             ),
@@ -215,7 +215,7 @@ class ListFilterFood2 extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
-                      fontFamily: 'Sukh',
+                      fontFamily: 'Montserrat',
                       fontSize: Sizes.dp12(context),
                     ),
                   ),
@@ -236,7 +236,7 @@ class ListFilterFood2 extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
-                        fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                        fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                   ),
                 ],
               )),
@@ -255,7 +255,7 @@ class ListFilterFood2 extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
-                        fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                        fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                   ),
                 ],
               )),
@@ -274,7 +274,7 @@ class ListFilterFood2 extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
-                        fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                        fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                   ),
                 ],
               )),
@@ -293,7 +293,7 @@ class ListFilterFood2 extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
-                        fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                        fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                   ),
                 ],
               )),
@@ -312,7 +312,7 @@ class ListFilterFood2 extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
-                        fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                        fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                   ),
                 ],
               )),
@@ -331,7 +331,7 @@ class ListFilterFood2 extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
-                        fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                        fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                   ),
                 ],
               )),
@@ -350,7 +350,7 @@ class ListFilterFood2 extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
-                        fontFamily: 'Sukh', fontSize: Sizes.dp12(context)),
+                        fontFamily: 'Montserrat', fontSize: Sizes.dp12(context)),
                   ),
                 ],
               )),

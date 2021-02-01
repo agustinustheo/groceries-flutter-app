@@ -104,7 +104,7 @@ class LoginPage extends StatelessWidget {
                 child: Center(
                   child: Text(
                     "Lupa Password",
-                    style: TextStyle(color: ColorPalette.textLoginBlack, fontSize: Sizes.dp18(context), fontWeight: FontWeight.normal, fontFamily: 'Sukh'),
+                    style: TextStyle(color: ColorPalette.textLoginBlack, fontSize: Sizes.dp18(context), fontWeight: FontWeight.normal, fontFamily: 'Montserrat'),
                   ),
                 ),
               ),
@@ -122,7 +122,7 @@ class LoginPage extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 15.0, 0, 15.0),
                   child: Text(
                     "Login",
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: Sizes.dp16(context), fontFamily: 'Sukh'),
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: Sizes.dp16(context), fontFamily: 'Montserrat'),
                   ),
                 ),
                 shape: RoundedRectangleBorder(
@@ -180,7 +180,7 @@ class LoginPage extends StatelessWidget {
                           ),
                           Padding(
                             padding: EdgeInsets.fromLTRB(5,0,0,0),
-                            child: Text("Google", style: TextStyle(color: ColorPalette.textGrey,fontFamily: 'Sukh', fontSize: Sizes.dp16(context)),),
+                            child: Text("Google", style: TextStyle(color: ColorPalette.textGrey,fontFamily: 'Montserrat', fontSize: Sizes.dp16(context)),),
                           )
                         ],
                       ),
@@ -198,11 +198,11 @@ class LoginPage extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         "Sudah Daftar?",
-                        style: TextStyle(color: ColorPalette.textLoginBlack, fontFamily: 'Sukh', fontSize: Sizes.dp18(context), fontWeight: FontWeight.normal),
+                        style: TextStyle(color: ColorPalette.textLoginBlack, fontFamily: 'Montserrat', fontSize: Sizes.dp18(context), fontWeight: FontWeight.normal),
                       ),
                       Text(
                         " Daftar sekarang!",
-                        style: TextStyle(color: ColorPalette.textLoginBlue, fontFamily: 'Sukh', fontSize: Sizes.dp18(context), fontWeight: FontWeight.bold),
+                        style: TextStyle(color: ColorPalette.textLoginBlue, fontFamily: 'Montserrat', fontSize: Sizes.dp18(context), fontWeight: FontWeight.bold),
                       ),
                     ],
 

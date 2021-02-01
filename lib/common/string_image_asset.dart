@@ -6,6 +6,7 @@ class StringImageAsset {
 
   static String space = "assets/flare/SpaceDemo.flr";
   static String logo = "assets/images/logo.png";
+  static String delivery = "assets/images/delivery.png";
   static String fbLogo = "assets/images/fb.png";
   static String googleLogo = "assets/images/google.png";
   static String introImage = "assets/images/intro.png";

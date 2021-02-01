@@ -1,3 +1,4 @@
+import 'package:diantaraja_mobile/ui/cart/delivery.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
@@ -17,7 +18,7 @@ class CardListShop extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        
+        Navigation.intent(context, DeliveryPage());
       },
       child: Container(
         padding: EdgeInsets.all(Sizes.dp4(context)),
@@ -48,11 +49,11 @@ class CardListShop extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           productName,
-                          style: TextStyle(fontSize: Sizes.dp14(context), fontFamily: 'Sukh', fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: Sizes.dp14(context), fontFamily: 'Montserrat', fontWeight: FontWeight.bold),
                         ),
                         Text(
                           price,
-                          style: TextStyle(color: Colors.grey, fontSize: Sizes.dp12(context), fontFamily: 'Sukh',),
+                          style: TextStyle(color: Colors.grey, fontSize: Sizes.dp12(context), fontFamily: 'Montserrat',),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:diantaraja_mobile/ui/dashboard/dashboard_page.dart';
+import 'package:diantaraja_mobile/ui/intro/start_page.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
@@ -25,7 +25,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void goToHome() {
-    Navigation.intentWithoutBack(context, DashBoardPage());
+    Navigation.intentWithoutBack(context, StartPage());
   }
 
   @override
@@ -54,6 +54,9 @@ class _SplashPageState extends State<SplashPage> {
               style: TextStyle(
                 fontSize: Sizes.dp16(context),
                 color: Colors.blue,
+                fontFamily: 'Quicksand',
+                fontWeight: FontWeight.bold,
+                letterSpacing: 3
               ),
             ),
           ),
