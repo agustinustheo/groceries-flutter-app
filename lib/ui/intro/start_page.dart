@@ -1,11 +1,46 @@
-import 'package:diantaraja_mobile/common/colors.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/ui/dashboard/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:diantaraja_mobile/common/string_image_asset.dart';
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:diantaraja_mobile/common/navigation.dart';
+import 'package:diantaraja_mobile/common/sizes.dart';
+import 'package:diantaraja_mobile/common/string_image_asset.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
-class StartPage extends StatelessWidget {
+class StartPage extends StatefulWidget {
+  @override
+  _StartPageState createState() => _StartPageState();
+}
+class _StartPageState extends State<StartPage> {
+  // Maps
+  Completer<GoogleMapController> _controller = Completer();
+  LocationData _currentLocation;
+  var _location = new Location();
+  static LatLng _initialPosition;
+
+  void _onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller);
+  }
+
+  Future<LatLng> _getStartingLocation() async {
+    _currentLocation = await _location.getLocation();
+    return LatLng(_currentLocation.latitude, _currentLocation.longitude);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getStartingLocation().then((value) {
+      setState(() {
+        _initialPosition = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

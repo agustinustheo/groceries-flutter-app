@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:bloc/bloc/home/list_product_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -12,8 +11,6 @@ import 'package:diantaraja_mobile/widget/app_bar/app_bar_home.dart';
 import 'package:diantaraja_mobile/widget/banner/banner_home.dart';
 import 'package:diantaraja_mobile/widget/card/card_list_shop.dart';
 import 'package:diantaraja_mobile/widget/header/space_header.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:network/model/list_product.dart';
 import 'package:network/network.dart';
 
@@ -23,31 +20,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Maps
-  Completer<GoogleMapController> _controller = Completer();
-  LocationData _currentLocation;
-  var _location = new Location();
-  static LatLng _initialPosition;
-
-  void _onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
-  }
-
-  Future<LatLng> _getStartingLocation() async {
-    _currentLocation = await _location.getLocation();
-    return LatLng(_currentLocation.latitude, _currentLocation.longitude);
-  }
-
   final bloc_product = ListProductBloc();
 
   @override
   void initState() {
     super.initState();
-    _getStartingLocation().then((value) {
-      setState(() {
-        _initialPosition = value;
-      });
-    });
     bloc_product.fetchAllReview();
   }
 

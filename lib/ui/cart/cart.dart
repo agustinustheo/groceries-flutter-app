@@ -232,7 +232,9 @@ class CartPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15.0)
               ),
               child: Text(
-                'Pembayaran dapat dilakukan melalui nomor rekening berikut: \n\nBCA: 123456\nMandiri: 123'
+                'Pembayaran dapat dilakukan melalui nomor rekening berikut: \n\n' + 
+                'BCA: 123456\n' + 
+                'Mandiri: 123'
               )
             ),
             SizedBox(height: Sizes.dp14(context)),
