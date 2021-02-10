@@ -1,9 +1,13 @@
+import 'package:bloc/bloc.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/ui/cart/delivery.dart';
+import 'package:diantaraja_mobile/widget/card/card_list_checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 
 class CartPage extends StatelessWidget {
+  final CartBloc _cartBloc = new CartBloc();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,124 +64,7 @@ class CartPage extends StatelessWidget {
                   SizedBox(
                     height: Sizes.dp8(context),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(25.0),
-                        child: Image.network(
-                          'https://d25rq8gxcq0p71.cloudfront.net/dictionary-images/324/small.jpg',
-                          fit: BoxFit.cover,
-                          width: Sizes.width(context) / 8,
-                          height: Sizes.width(context) / 8,
-                        ),
-                      ),
-                      SizedBox(
-                        width: Sizes.dp12(context),
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Dog',
-                              style: TextStyle(
-                                fontSize: Sizes.dp14(context),
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                            Text(
-                              '1 dog',
-                              style: TextStyle(
-                                fontSize: Sizes.dp12(context),
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.grey
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        'Rp30000,-',
-                        style: TextStyle(
-                          fontSize: Sizes.dp12(context),
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w600,
-                          color: Colors.blue[400]
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: Sizes.dp8(context),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(25.0),
-                        child: Image.network(
-                          'https://d25rq8gxcq0p71.cloudfront.net/dictionary-images/324/small.jpg',
-                          fit: BoxFit.cover,
-                          width: Sizes.width(context) / 8,
-                          height: Sizes.width(context) / 8,
-                        ),
-                      ),
-                      SizedBox(
-                        width: Sizes.dp12(context),
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Dog',
-                              style: TextStyle(
-                                fontSize: Sizes.dp14(context),
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                            Text(
-                              '1 dog',
-                              style: TextStyle(
-                                fontSize: Sizes.dp12(context),
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.grey
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        'Rp30000,-',
-                        style: TextStyle(
-                          fontSize: Sizes.dp12(context),
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w600,
-                          color: Colors.blue[400]
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: Sizes.dp8(context),
-                  ),
+                  ...generateProduct(context, _cartBloc),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     mainAxisSize: MainAxisSize.max,
@@ -196,7 +83,7 @@ class CartPage extends StatelessWidget {
                         width: Sizes.dp28(context),
                       ),
                       Text(
-                        'Rp30000,-',
+                        'Rp ' + _cartBloc.totalPrice().toString() + ',-',
                         style: TextStyle(
                           fontSize: Sizes.dp12(context),
                           fontFamily: 'Montserrat',
@@ -266,5 +153,16 @@ class CartPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> generateProduct(BuildContext context, CartBloc cartBloc){
+    List<Widget> widgetList = [];
+    for(CartProduct cartProduct in _cartBloc.getProduct){
+      if(cartProduct.quantity > 0){
+        widgetList.add(new CardListCheckout(cartProduct, cartBloc));
+        widgetList.add(SizedBox(height: Sizes.dp8(context)));
+      }
+    }
+    return widgetList;
   }
 }

@@ -25,7 +25,7 @@ class CartBloc extends ChangeNotifier {
     }
   }
 
-  /// Removes [CartProduct] to cart. This is the only way to remove the cart from outside.
+  /// Removes [CartProduct] from cart.
   void remove(CartProduct product) {
     productList.asMap().forEach((i, value){
       if(value.itemCode == product.itemCode && value.quantity > 0){
@@ -34,16 +34,34 @@ class CartBloc extends ChangeNotifier {
     });
   }
 
+  /// Removes all [CartProduct] in cart.
   void removeAllFromList(){
     for(int i = productList.length - 1; i >= 0; i--){
       productList.removeAt(i);
     }
   }
 
-  int length(){
-    return productList.length;
+  /// Calculates the price of an [CartProduct].
+  int itemPrice(CartProduct product){
+    int total = 0;
+    productList.asMap().forEach((i, value){
+      if(value.itemCode == product.itemCode){
+        total += (value.quantity * value.price);
+      }
+    });
+    return total;
   }
 
+  /// Calculates entire cart price.
+  int totalPrice(){
+    int total = 0;
+    productList.asMap().forEach((i, value){
+      total += (value.quantity * value.price);
+    });
+    return total;
+  }
+
+  /// Retrieves the quantity of an [CartProduct].
   int itemQuantity(CartProduct product){
     int quantity = 0;
     productList.asMap().forEach((i, value){
@@ -52,11 +70,5 @@ class CartBloc extends ChangeNotifier {
       }
     });
     return quantity;
-  }
-
-  void printList(){
-    productList.forEach((value){
-      print(value.itemName);
-    });
   }
 }

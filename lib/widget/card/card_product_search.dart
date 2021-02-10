@@ -25,7 +25,8 @@ class _CardProductSearchState extends State<CardProductSearch> {
       widget.product.itemBarcode,
       widget.product.itemName,
       widget.product.itemType,
-      widget.product.itemBarcode,
+      widget.product.itemUnit,
+      widget.product.price,
       widget.product.productImage
     );
     _controller = new TextEditingController(text: _cartBloc.itemQuantity(_cartProduct).toString());
