@@ -1,5 +1,4 @@
 import 'package:diantaraja_mobile/ui/cart/cart.dart';
-import 'package:diantaraja_mobile/ui/cart/delivery.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';

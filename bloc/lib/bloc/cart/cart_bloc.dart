@@ -1,40 +1,36 @@
 import 'dart:collection';
-import 'package:bloc/bloc/cart/product.dart';
+import 'package:bloc/bloc/cart/cart_product.dart';
 import 'package:flutter/material.dart';
 
 class CartBloc extends ChangeNotifier {
-  /// Internal, private state of the cart.
-  final List<Product> productList = [];
+  /// State of the cart.
+  static List<CartProduct> productList = new List<CartProduct>();
 
   /// An unmodifiable view of the items in the cart.
-  UnmodifiableListView<Product> get getProduct => UnmodifiableListView(productList);
+  UnmodifiableListView<CartProduct> get getProduct => UnmodifiableListView(productList);
 
-  /// Adds [Product] to cart. This is the only way to add the cart from outside.
-  void add(Product product) {
-    productList.add(product);
-  }
-
-  int findToDelete(Product product){
-    int index = -1;
+  /// Adds [CartProduct] to cart. This is the only way to add the cart from outside.
+  void add(CartProduct product) {
+    bool isProductExists = false;
     productList.asMap().forEach((i, value){
-      if(value.itemID == product.itemID){
-        index = i;
+      if(value.itemCode == product.itemCode){
+        value.quantity += 1;
+        isProductExists = true;
       }
     });
-    return index;
+    
+    if(!isProductExists) {
+      product.quantity = 1;
+      productList.add(product);
+    }
   }
 
-  /// Removes [Product] to cart. This is the only way to remove the cart from outside.
-  void remove(Product product) {
-    int index = this.findToDelete(product);
-    if(index >= 0)
-      productList.removeAt(index);
-  }
-
-  void addToList(List<Product> product){
-    this.removeAllFromList();
-    product.forEach((value){
-      productList.add(value);
+  /// Removes [CartProduct] to cart. This is the only way to remove the cart from outside.
+  void remove(CartProduct product) {
+    productList.asMap().forEach((i, value){
+      if(value.itemCode == product.itemCode && value.quantity > 0){
+        value.quantity -= 1;
+      }
     });
   }
 
@@ -44,13 +40,18 @@ class CartBloc extends ChangeNotifier {
     }
   }
 
-  int itemLength(String searchedId){
-    int count = 0;
-    productList.forEach((value){
-      if(value.itemID == searchedId)
-        count++;
+  int length(){
+    return productList.length;
+  }
+
+  int itemQuantity(CartProduct product){
+    int quantity = 0;
+    productList.asMap().forEach((i, value){
+      if(value.itemCode == product.itemCode){
+        quantity = value.quantity;
+      }
     });
-    return count;
+    return quantity;
   }
 
   void printList(){

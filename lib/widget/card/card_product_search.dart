@@ -1,16 +1,40 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
+import 'package:network/model/list_product.dart';
 
-class CardProductSearch extends StatelessWidget {
+class CardProductSearch extends StatefulWidget {
+  final Product product;
+  const CardProductSearch({Key key, this.product}) : super(key: key);
 
-  final int width;
-  final int height;
-  final String urlProductImage;
-  final String productName;
-  final String productUnit;
-  final String price;
+  @override
+  _CardProductSearchState createState() => _CardProductSearchState();
+}
 
-  const CardProductSearch({Key key, this.width, this.height, this.urlProductImage, this.productName, this.productUnit, this.price}) : super(key: key);
+class _CardProductSearchState extends State<CardProductSearch> {
+  CartBloc _cartBloc;
+  CartProduct _cartProduct;
+  TextEditingController _controller;
+  
+  @override
+  void initState() {
+    super.initState();
+    _cartBloc = new CartBloc();
+    _cartProduct = new CartProduct(
+      widget.product.itemCode,
+      widget.product.itemBarcode,
+      widget.product.itemName,
+      widget.product.itemType,
+      widget.product.itemBarcode,
+      widget.product.productImage
+    );
+    _controller = new TextEditingController(text: _cartBloc.itemQuantity(_cartProduct).toString());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +59,7 @@ class CardProductSearch extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(25.0),
                 child: Image.network(
-                  urlProductImage,
+                  widget.product.productImage,
                   fit: BoxFit.cover,
                   width: Sizes.width(context) / 8,
                   height: Sizes.width(context) / 8,
@@ -50,7 +74,7 @@ class CardProductSearch extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      productName,
+                      widget.product.itemName,
                       style: TextStyle(
                         fontSize: Sizes.dp14(context),
                         fontFamily: 'Montserrat',
@@ -58,7 +82,7 @@ class CardProductSearch extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '1 ' + productUnit,
+                      '1 ' + widget.product.itemUnit,
                       style: TextStyle(
                         fontSize: Sizes.dp12(context),
                         fontFamily: 'Montserrat',
@@ -72,7 +96,7 @@ class CardProductSearch extends StatelessWidget {
                 ),
               ),
               Text(
-                'Rp ' + price.toString() + ',-',
+                'Rp ' + widget.product.price.toString() + ',-',
                 style: TextStyle(
                   fontSize: Sizes.dp12(context),
                   fontFamily: 'Montserrat',
@@ -92,7 +116,10 @@ class CardProductSearch extends StatelessWidget {
             children: <Widget>[
               InkWell(
                 onTap: (){
-
+                  setState(() {
+                    _cartBloc.remove(_cartProduct);
+                    _controller.text = _cartBloc.itemQuantity(_cartProduct).toString();
+                  });
                 },
                 child: Container(
                   width: Sizes.dp24(context),
@@ -123,11 +150,11 @@ class CardProductSearch extends StatelessWidget {
               Container(
                 width: Sizes.dp28(context),
                 child: TextField(
+                  controller: _controller,
                   textAlign: TextAlign.center,
                   maxLength: 3,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    hintText: '0',
                     counterText: "",
                     isDense: true
                   ),                                 
@@ -141,7 +168,10 @@ class CardProductSearch extends StatelessWidget {
               ),
               InkWell(
                 onTap: (){
-
+                  setState(() {
+                    _cartBloc.add(_cartProduct);
+                    _controller.text = _cartBloc.itemQuantity(_cartProduct).toString();
+                  });
                 },
                 child: Container(
                   width: Sizes.dp24(context),

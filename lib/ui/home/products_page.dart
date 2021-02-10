@@ -51,12 +51,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 itemCount: snapshot.data.listProduct.length,
                 itemBuilder: (context, index) {
                   return CardProductSearch(
-                    width: snapshot.data.listProduct[index].width,
-                    height: snapshot.data.listProduct[index].height,
-                    urlProductImage: snapshot.data.listProduct[index].productImage,
-                    productName: snapshot.data.listProduct[index].itemName,
-                    productUnit: snapshot.data.listProduct[index].itemUnit,
-                    price: snapshot.data.listProduct[index].price.toString(),
+                    product: snapshot.data.listProduct[index]
                   );
                 }
               );
