@@ -15,40 +15,40 @@ class ListProduct {
 }
 
 class Product {
-  int price;
-  int itemBarcode;
+  int productPrice;
+  int productBarcode;
   int width;
   int height;
-  String itemCode;
-  String itemName;
-  String itemType;
-  String itemUnit;
-  String description;
+  String productCode;
+  String productName;
+  String productType;
+  String productUnit;
+  String productDescription;
   String productImage;
   String brandImage;
 
   Product(
       {
-        this.price,
-        this.itemBarcode,
+        this.productPrice,
+        this.productBarcode,
         this.width,
         this.height,
-        this.itemCode,
-        this.itemName,
-        this.itemType,
-        this.itemUnit,
-        this.description,
+        this.productCode,
+        this.productName,
+        this.productType,
+        this.productUnit,
+        this.productDescription,
         this.productImage,
         this.brandImage});
 
   Product.fromJson(Map<String, dynamic> json) {
-    itemCode = json['itemCode'];
-    itemName = json['itemName'];
-    itemType = json['itemType'];
-    itemUnit = json['itemUnit'];
-    description = json['description'];
-    price = json['price'];
-    itemBarcode = json['itemBarcode'];
+    productCode = json['productCode'];
+    productName = json['productName'];
+    productType = json['productType'];
+    productUnit = json['productUnit'];
+    productDescription = json['productDescription'];
+    productPrice = json['productPrice'];
+    productBarcode = json['productBarcode'];
     productImage = json['productImage'];
     brandImage = json['brandImage'];
     width = json['productImageWidth'];

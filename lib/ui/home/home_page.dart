@@ -144,8 +144,8 @@ class _HomePageState extends State<HomePage> {
                         height: snapshot.data.listProduct[index].height,
                         urlProductImage: snapshot.data.listProduct[index].productImage,
                         urlBrandImage: snapshot.data.listProduct[index].brandImage,
-                        productName: snapshot.data.listProduct[index].itemName,
-                        price: snapshot.data.listProduct[index].price.toString(),
+                        productName: snapshot.data.listProduct[index].productName,
+                        price: snapshot.data.listProduct[index].productPrice.toString(),
                       );
                     },
                     staggeredTileBuilder: (index) => StaggeredTile.fit(2),

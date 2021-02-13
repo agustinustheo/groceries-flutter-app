@@ -21,12 +21,12 @@ class _CardProductSearchState extends State<CardProductSearch> {
     super.initState();
     _cartBloc = new CartBloc();
     _cartProduct = new CartProduct(
-      widget.product.itemCode,
-      widget.product.itemBarcode,
-      widget.product.itemName,
-      widget.product.itemType,
-      widget.product.itemUnit,
-      widget.product.price,
+      widget.product.productCode,
+      widget.product.productBarcode,
+      widget.product.productName,
+      widget.product.productType,
+      widget.product.productUnit,
+      widget.product.productPrice,
       widget.product.productImage
     );
     _controller = new TextEditingController(text: _cartBloc.itemQuantity(_cartProduct).toString());
@@ -75,7 +75,7 @@ class _CardProductSearchState extends State<CardProductSearch> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      widget.product.itemName,
+                      widget.product.productName,
                       style: TextStyle(
                         fontSize: Sizes.dp14(context),
                         fontFamily: 'Montserrat',
@@ -83,7 +83,7 @@ class _CardProductSearchState extends State<CardProductSearch> {
                       ),
                     ),
                     Text(
-                      '1 ' + widget.product.itemUnit,
+                      '1 ' + widget.product.productUnit,
                       style: TextStyle(
                         fontSize: Sizes.dp12(context),
                         fontFamily: 'Montserrat',
@@ -97,7 +97,7 @@ class _CardProductSearchState extends State<CardProductSearch> {
                 ),
               ),
               Text(
-                'Rp ' + widget.product.price.toString() + ',-',
+                'Rp ' + widget.product.productPrice.toString() + ',-',
                 style: TextStyle(
                   fontSize: Sizes.dp12(context),
                   fontFamily: 'Montserrat',
