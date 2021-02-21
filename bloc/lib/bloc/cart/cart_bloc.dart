@@ -1,5 +1,5 @@
 import 'dart:collection';
-import 'package:bloc/bloc/cart/cart_product.dart';
+import 'package:bloc_modul/bloc/cart/cart_product.dart';
 import 'package:flutter/material.dart';
 
 class CartBloc extends ChangeNotifier {

@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:bloc_modul/bloc.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/ui/cart/delivery.dart';
 import 'package:diantaraja_mobile/widget/card/card_list_checkout.dart';

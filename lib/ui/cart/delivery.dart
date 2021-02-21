@@ -1,5 +1,4 @@
 import 'package:diantaraja_mobile/ui/dashboard/dashboard_page.dart';
-import 'package:diantaraja_mobile/ui/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';

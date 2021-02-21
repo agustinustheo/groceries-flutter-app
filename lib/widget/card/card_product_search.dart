@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:bloc_modul/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:network/model/list_product.dart';

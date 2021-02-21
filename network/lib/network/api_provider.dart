@@ -5,7 +5,7 @@ import 'dart:convert';
 
 class ApiProvider {
   Client client = Client();
-  static final String _baseUrlListProduct = 'http://dev.diantaraje.com/api/product';
+  static final String _baseUrlListProduct = 'https://dev.diantaraje.com/api/product';
 
   Future<ListProduct> getListProduct() async {
     final response = await client.get(_baseUrlListProduct);
