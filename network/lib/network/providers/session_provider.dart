@@ -8,7 +8,7 @@ class SessionProvider {
   Future<Session> fetchSession() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String sessionString = prefs.getString("session");
-    if(sessionString == ""){
+    if(sessionString != null){
       var map = json.decode(sessionString);
       return Session.fromJson(map);
     }

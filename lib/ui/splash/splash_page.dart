@@ -1,9 +1,14 @@
 import 'dart:async';
+
 import 'package:diantaraja_mobile/ui/intro/start_page.dart';
+import 'package:diantaraja_mobile/ui/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:diantaraja_mobile/common/string_image_asset.dart';
+import 'package:bloc_modul/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repository/repository.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -11,30 +16,45 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-
-  startTime() async {
-    var _duration = Duration(seconds: 3);
-    return Timer(_duration, goToHome);
+  startTime(void Function() f) async {
+    var _duration = Duration(seconds: 1);
+    return Timer(_duration, f);
   }
 
   @override
   void initState() {
     super.initState();
-    startTime();
   }
 
   void goToHome() {
     Navigation.intentWithoutBack(context, StartPage());
   }
 
+  void goToLogin() {
+    Navigation.intentWithoutBack(context, LoginPage());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: getSplashScreen(),
+    return BlocProvider(
+      create: (_) => SessionBloc(repository: SessionRepository())..add(SessionFetchData()),
+      child: Scaffold(
+        body: BlocConsumer<SessionBloc, SessionState>(
+          listener: (context,state){},
+          builder: (context,state){
+            if(state is SessionFetchSuccessState){
+              startTime(goToHome);
+            }else if(state is SessionFetchFailedState){
+              startTime(goToLogin);
+            }
+            return getSplashScreen();
+          },
+        ),
+      ),
     );
   }
 
-  getSplashScreen() {
+  Widget getSplashScreen() {
     return Stack(
       children: <Widget>[
         Center(

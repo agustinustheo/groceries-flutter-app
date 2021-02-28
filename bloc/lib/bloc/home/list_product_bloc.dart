@@ -7,17 +7,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListProductBloc extends Bloc<ListProductEvent,ListProductState> {
   final ProductRepository repository;
-  ListProductBloc({@required this.repository}) : super(InitialState());
+  ListProductBloc({@required this.repository}) : super(ListProductInitialState());
 
   @override
   Stream<ListProductState> mapEventToState(ListProductEvent event) async*{
-   if(event is FetchData){
-     yield LoadingState();
+   if(event is ListProductFetchData){
+     yield ListProductLoadingState();
      ListProduct listProduct = await repository.fetchAllProduct();
      if(listProduct.listProduct.isEmpty){
-       yield FetchFailedState();
+       yield ListProductFetchFailedState();
      }else{
-       yield FetchSuccessState(listProduct: listProduct);
+       yield ListProductFetchSuccessState(listProduct: listProduct);
      }
    }
   }
@@ -31,20 +31,20 @@ abstract class ListProductEvent extends Equatable {
   const ListProductEvent();
 }
 
-class InitialState extends ListProductState {
+class ListProductInitialState extends ListProductState {
   @override
   List<Object> get props => [];
 }
 
-class LoadingState extends ListProductState {
+class ListProductLoadingState extends ListProductState {
   @override
   List<Object> get props => [];
 }
 
-class FetchSuccessState extends ListProductState {
+class ListProductFetchSuccessState extends ListProductState {
   final ListProduct listProduct;
 
-  FetchSuccessState({
+  ListProductFetchSuccessState({
     @required this.listProduct,
   });
 
@@ -52,12 +52,12 @@ class FetchSuccessState extends ListProductState {
   List<Object> get props => [listProduct];
 }
 
-class FetchFailedState extends ListProductState {
+class ListProductFetchFailedState extends ListProductState {
   @override
   List<Object> get props => [];
 }
 
-class FetchData extends ListProductEvent {
+class ListProductFetchData extends ListProductEvent {
   @override
   List<Object> get props => [];
 }

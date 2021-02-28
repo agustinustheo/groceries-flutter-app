@@ -6,17 +6,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SessionBloc extends Bloc<SessionEvent,SessionState> {
   final SessionRepository repository;
-  SessionBloc({@required this.repository}) : super(InitialState());
+  SessionBloc({@required this.repository}) : super(SessionInitialState());
 
   @override
   Stream<SessionState> mapEventToState(SessionEvent event) async*{
-   if(event is FetchData){
-     yield LoadingState();
+   if(event is SessionFetchData){
+     yield SessionLoadingState();
      Session session = await repository.fetchSession();
-     if(session.cookies.isEmpty){
-       yield FetchFailedState();
+     if(session.cookies == null){
+       yield SessionFetchFailedState();
      }else{
-       yield FetchSuccessState(session: session);
+       yield SessionFetchSuccessState(session: session);
      }
    }
   }
@@ -30,20 +30,20 @@ abstract class SessionEvent extends Equatable {
   const SessionEvent();
 }
 
-class InitialState extends SessionState {
+class SessionInitialState extends SessionState {
   @override
   List<Object> get props => [];
 }
 
-class LoadingState extends SessionState {
+class SessionLoadingState extends SessionState {
   @override
   List<Object> get props => [];
 }
 
-class FetchSuccessState extends SessionState {
+class SessionFetchSuccessState extends SessionState {
   final Session session;
 
-  FetchSuccessState({
+  SessionFetchSuccessState({
     @required this.session,
   });
 
@@ -51,12 +51,12 @@ class FetchSuccessState extends SessionState {
   List<Object> get props => [session];
 }
 
-class FetchFailedState extends SessionState {
+class SessionFetchFailedState extends SessionState {
   @override
   List<Object> get props => [];
 }
 
-class FetchData extends SessionEvent {
+class SessionFetchData extends SessionEvent {
   @override
   List<Object> get props => [];
 }

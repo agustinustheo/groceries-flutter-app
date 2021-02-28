@@ -17,8 +17,8 @@ class ListProduct {
 class Product {
   int productPrice;
   int productBarcode;
-  int width;
-  int height;
+  int productImageWidth;
+  int productImageHeight;
   String productCode;
   String productName;
   String productType;
@@ -31,8 +31,8 @@ class Product {
       {
         this.productPrice,
         this.productBarcode,
-        this.width,
-        this.height,
+        this.productImageWidth,
+        this.productImageHeight,
         this.productCode,
         this.productName,
         this.productType,
@@ -51,7 +51,7 @@ class Product {
     productBarcode = json['productBarcode'];
     productImage = json['productImage'];
     brandImage = json['brandImage'];
-    width = json['productImageWidth'];
-    height = json['productImageHeight'];
+    productImageWidth = json['productImageWidth'];
+    productImageHeight = json['productImageHeight'];
   }
 }

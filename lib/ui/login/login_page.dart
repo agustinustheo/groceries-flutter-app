@@ -113,9 +113,8 @@ class LoginPage extends StatelessWidget {
               width: Sizes.width(context)/1.7,
               padding: EdgeInsets.fromLTRB(16, 16, 16, 24),
               child: FlatButton(
-                color: ColorPalette.backgroundDarkBlue,
+                color: Colors.blue[400],
                 onPressed: () {
-//                  Navigation.intentWithoutBack(context, IntroPageOne());
                   Navigation.intentWithoutBack(context, IntroPage());
                 },
                 child: Padding(

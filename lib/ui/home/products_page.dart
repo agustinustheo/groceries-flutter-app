@@ -18,7 +18,7 @@ class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ListProductBloc(repository: ProductRepository())..add(FetchData()),
+      create: (_) => ListProductBloc(repository: ProductRepository())..add(ListProductFetchData()),
       child: Scaffold(
         appBar: CustomAppBar(
           appBarColor: Colors.blue[400],
@@ -34,7 +34,7 @@ class _ProductsPageState extends State<ProductsPage> {
           child: BlocConsumer<ListProductBloc, ListProductState>(
             listener: (context,state){},
             builder: (context,state){
-              if(state is FetchSuccessState){
+              if(state is ListProductFetchSuccessState){
                 return ListView.builder(
                   itemCount: state.listProduct.listProduct.length,
                   itemBuilder: (context, index) {
@@ -43,7 +43,7 @@ class _ProductsPageState extends State<ProductsPage> {
                     );
                   }
                 );
-              }else if(state is FetchFailedState){
+              }else if(state is ListProductFetchFailedState){
                 return Text(
                   "Error fetch data",
                   style: TextStyle(color: Colors.red),

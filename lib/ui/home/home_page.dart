@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ListProductBloc(repository: ProductRepository())..add(FetchData()),
+      create: (_) => ListProductBloc(repository: ProductRepository())..add(ListProductFetchData()),
       child: Scaffold(
         drawer: Drawer(),
         appBar: CustomAppBar(
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
               child: BlocConsumer<ListProductBloc, ListProductState>(
                 listener: (context,state){},
                 builder: (context,state){
-                  if(state is FetchSuccessState){
+                  if(state is ListProductFetchSuccessState){
                     return StaggeredGridView.countBuilder(
                       shrinkWrap: true,
                       primary: false,
@@ -129,8 +129,8 @@ class _HomePageState extends State<HomePage> {
                       itemCount: state.listProduct.listProduct.length,
                       itemBuilder: (context, index) {
                         return CardListShop(
-                          width: state.listProduct.listProduct[index].width,
-                          height: state.listProduct.listProduct[index].height,
+                          width: state.listProduct.listProduct[index].productImageWidth,
+                          height: state.listProduct.listProduct[index].productImageHeight,
                           urlProductImage: state.listProduct.listProduct[index].productImage,
                           urlBrandImage: state.listProduct.listProduct[index].brandImage,
                           productName: state.listProduct.listProduct[index].productName,
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                       },
                       staggeredTileBuilder: (index) => StaggeredTile.fit(2),
                     );
-                  }else if(state is FetchFailedState){
+                  }else if(state is ListProductFetchFailedState){
                     return Text(
                       "Error fetch data",
                       style: TextStyle(color: Colors.red),
