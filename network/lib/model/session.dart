@@ -6,7 +6,9 @@ class Session {
   Session({this.cookies});
 
   Session.fromJson(Map<String, dynamic> json) {
-    cookies = json['cookies'];
+    cookies = (json['cookies'] as List)
+        .map((x) => x.toString())
+        .toList();
   }
 
   String encode() => json.encode({ 'cookies': cookies });

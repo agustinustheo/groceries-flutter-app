@@ -4,14 +4,24 @@ import '../api_client.dart';
 
 class CustomerProvider {
   Future<void> login(String customerEmail, String customerPassword) async {
-    String basicToken = encodeStringBase64(customerEmail + ":" + customerPassword);
-    client.options.headers["Authorization"] = "Basic $basicToken";
-    await client.get('/customer/login');
+    try{
+      String basicToken = encodeStringBase64(customerEmail + ":" + customerPassword);
+      client.options.headers["Authorization"] = "Basic $basicToken";
+      await client.get('/customer/login');
+    }
+    on Exception catch(ex){
+      throw ex;
+    }
   }
   
   Future<void> register(Customer customer) async {
-    String basicToken = encodeStringBase64(customer.customerEmail + ":" + customer.customerPassword);
-    client.options.headers["Authorization"] = "Basic $basicToken";
-    await client.post('/customer/login', data: customer.encode());
+    try{
+      String basicToken = encodeStringBase64(customer.customerEmail + ":" + customer.customerPassword);
+      client.options.headers["Authorization"] = "Basic $basicToken";
+      await client.post('/customer/login', data: customer.encode());
+    }
+    on Exception catch(ex){
+      throw ex;
+    }
   }
 }

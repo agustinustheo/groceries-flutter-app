@@ -6,9 +6,9 @@ class CustomerRepository {
   // handle the data it's from local or internet
 
   var _customerProvider = new CustomerProvider();
-  Future<void> login(String customerEmail, String customerPassword) => 
-    _customerProvider.login(customerEmail, customerPassword);
+  Future<void> login(String customerEmail, String customerPassword) async => 
+    await _customerProvider.login(customerEmail, customerPassword);
 
-  Future<void> register(Customer customer) => 
-    _customerProvider.register(customer);
+  Future<void> register(Customer customer) async => 
+    await _customerProvider.register(customer);
 }

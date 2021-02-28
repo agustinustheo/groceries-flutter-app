@@ -7,5 +7,5 @@ class SessionRepository {
 
   var _sessionProvider = new SessionProvider();
   Future<Session> fetchSession() => _sessionProvider.fetchSession();
-
+  Future<void> destroySession() => _sessionProvider.destroySession();
 }

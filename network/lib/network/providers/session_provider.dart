@@ -22,6 +22,6 @@ class SessionProvider {
   
   Future<void> destroySession() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("session", "");
+    prefs.setString("session", null);
   }
 }

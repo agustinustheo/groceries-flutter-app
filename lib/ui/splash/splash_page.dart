@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:diantaraja_mobile/ui/intro/start_page.dart';
 import 'package:diantaraja_mobile/ui/login/login_page.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +18,6 @@ class _SplashPageState extends State<SplashPage> {
   startTime(void Function() f) async {
     var _duration = Duration(seconds: 1);
     return Timer(_duration, f);
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   void goToHome() {

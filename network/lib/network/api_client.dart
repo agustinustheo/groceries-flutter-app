@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import "package:dio/dio.dart";
 import "package:network/network.dart";
 
@@ -27,23 +29,20 @@ dynamic _requestInterceptor(RequestOptions options) async {
 
 dynamic _responseInterceptor(Response response) async {
   final cookies = response.headers.map["set-cookie"];
+
   if(cookies != null){
     var sessionProvider = new SessionProvider();
     await sessionProvider.setSession(new Session(cookies: cookies));
-  }
-  if(response.statusCode == 401){
-    throw DioError(error: "Unauthorized");
-  }
-  else if(response.statusCode == 500){
-    throw DioError(error: "Request failed");
   }
   return response;
 }
 
 dynamic _errorInterceptor(DioError dioError) async {
-  if (dioError.error.toString().contains("Unauthorized")) {
+  if(dioError.response.statusCode == 401){
     var sessionProvider = new SessionProvider();
-    await sessionProvider.destroySession();
+    sessionProvider.destroySession();
+    return dioError;
   }
-  return dioError;
+  String errorMessage = json.decode(dioError.response.toString())["errorMessage"];
+  throw new Exception(errorMessage);
 }
