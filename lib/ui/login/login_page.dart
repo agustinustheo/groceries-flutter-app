@@ -153,21 +153,22 @@ class _LoginPageState extends State<LoginPage>{
                 padding: EdgeInsets.fromLTRB(16, 16, 16, 24),
                 child: FlatButton(
                   color: Colors.blue[400],
-                  onPressed: () async {
-                    try{
-                      var _repository = new CustomerRepository();
-                      await _repository.login(_emailController.text, _passwordController.text);
-                    }
-                    on Exception catch(ex){
-                      if(ex is ApiException){
-                        Alert(
-                          context: context,
-                          type: AlertType.warning,
-                          title: "Error",
-                          desc: ex.message
-                        ).show();
-                      }
-                    }
+                  onPressed: () {
+                    var _repository = new CustomerRepository();
+                    _repository.login(_emailController.text, _passwordController.text)
+                      .then((res){
+                        BlocProvider.of<SessionBloc>(context).add(SessionFetchData());
+                      })
+                      .catchError((ex){
+                        if(ex is ApiException){
+                          Alert(
+                            context: context,
+                            type: AlertType.warning,
+                            title: "Error",
+                            desc: ex.message
+                          ).show();
+                        }
+                      });
                   },
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(0, 15.0, 0, 15.0),
