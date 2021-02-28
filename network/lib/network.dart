@@ -14,3 +14,4 @@ export 'network/providers/customer_provider.dart';
 
 // utils
 export 'common/base64_helper.dart';
+export 'common/api_exception.dart';

@@ -8,6 +8,7 @@ import 'package:diantaraja_mobile/widget/alert_dialog/pop_up_exit_apps.dart';
 import 'package:bloc_modul/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repository/repository.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DashBoardPage extends StatefulWidget {
   @override
@@ -39,8 +40,6 @@ class _DashBoardPageState extends State<DashBoardPage> with TickerProviderStateM
           if(state is SessionFetchFailedState){
             goToLogin();
           }
-          var _repository = new SessionRepository();
-          _repository.destroySession();
           return mainWidget(context);
         },
       ),
@@ -50,19 +49,32 @@ class _DashBoardPageState extends State<DashBoardPage> with TickerProviderStateM
   Widget mainWidget(BuildContext context){
     return WillPopScope(
       onWillPop: () {
-        return showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (BuildContext context) {
-              return PopUp(
-                content: "Are you sure want to exit?",
-                cancelText: "No",
-                acceptText: "Yes",
-                onTapCancel: () => Navigator.of(context).pop(),
-                onTapAccept: () => exit(0),
-              );
-            }
-        );
+        return Alert(
+          context: context,
+          type: AlertType.warning,
+          title: "Warning",
+          desc: "Are you sure want to exit?",
+          buttons: [
+            DialogButton(
+              child: Text(
+                "No",
+                style: TextStyle(
+                    color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+              width: 120,
+            ),
+            DialogButton(
+              child: Text(
+                "Yes",
+                style: TextStyle(
+                    color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => exit(0),
+              width: 120,
+            )
+          ],
+        ).show();
       },
       child: Scaffold(
         body: _list[_page],

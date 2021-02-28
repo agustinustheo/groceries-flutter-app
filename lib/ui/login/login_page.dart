@@ -8,7 +8,9 @@ import 'package:diantaraja_mobile/common/string_image_asset.dart';
 import 'package:diantaraja_mobile/ui/intro/intro_page.dart';
 import 'package:bloc_modul/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:network/network.dart';
 import 'package:repository/repository.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -157,7 +159,14 @@ class _LoginPageState extends State<LoginPage>{
                       await _repository.login(_emailController.text, _passwordController.text);
                     }
                     on Exception catch(ex){
-                      print(ex);
+                      if(ex is ApiException){
+                        Alert(
+                          context: context,
+                          type: AlertType.warning,
+                          title: "Error",
+                          desc: ex.message
+                        ).show();
+                      }
                     }
                   },
                   child: Padding(

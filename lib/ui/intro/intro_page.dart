@@ -1,12 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/colors.dart';
-import 'package:diantaraja_mobile/common/common.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:diantaraja_mobile/common/string_image_asset.dart';
 import 'package:diantaraja_mobile/ui/dashboard/dashboard_page.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 List<T> map<T>(List list, Function handler) {
   List<T> result = [];
@@ -51,8 +51,26 @@ class _IntroPageState extends State<IntroPage> {
     if (result[PermissionGroup.location] == PermissionStatus.granted) {
       Navigation.intentWithoutBack(context, DashBoardPage());
     } else if (result[PermissionGroup.location] == PermissionStatus.denied) {
-      Common.showAlertDialogPermission(
-          context, "You need accepted permission for access maps");
+      Alert(
+        context: context,
+        type: AlertType.info,
+        title: "Permission",
+        desc: "You need accepted permission for access maps",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "OK",
+              style: TextStyle(
+                  color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){
+              PermissionHandler().openAppSettings().then((bool hasOpened) =>
+                debugPrint('App Settings opened: ' + hasOpened.toString()));
+            },
+            width: 120,
+          )
+        ],
+      ).show();
     }
   }
 

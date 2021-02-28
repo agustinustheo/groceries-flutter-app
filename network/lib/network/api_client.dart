@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import "package:dio/dio.dart";
@@ -7,42 +8,43 @@ Dio client = _getClient();
 
 Dio _getClient() {
   Dio _dio = new Dio();
-  _dio.interceptors.add(
-    InterceptorsWrapper(
-      onRequest: (RequestOptions options) => _requestInterceptor(options),
-      onResponse: (Response response) => _responseInterceptor(response),
-      onError: (DioError error) => _errorInterceptor(error)
-    )
-  );
+  _dio.interceptors.add(new ApiInterceptors());
   _dio.options.baseUrl = "https://dev.diantaraje.com/api";
+  _dio.options.followRedirects = false;
+  _dio.options.validateStatus = (status) {
+    return status < 500;
+  };
   return _dio;
 }
 
-dynamic _requestInterceptor(RequestOptions options) async {
-  var sessionProvider = new SessionProvider();
-  var session = await sessionProvider.fetchSession();
-  if(session.cookies != null){
-    options.headers["cookie"] = session.cookies;
-  }
-	return options;
-}
-
-dynamic _responseInterceptor(Response response) async {
-  final cookies = response.headers.map["set-cookie"];
-
-  if(cookies != null){
+class ApiInterceptors extends Interceptor {
+  @override
+  Future<dynamic> onRequest(RequestOptions options) async {
     var sessionProvider = new SessionProvider();
-    await sessionProvider.setSession(new Session(cookies: cookies));
+    var session = await sessionProvider.fetchSession();
+    if(session.cookies != null){
+      options.headers["cookie"] = session.cookies;
+    }
+    return options;
   }
-  return response;
-}
 
-dynamic _errorInterceptor(DioError dioError) async {
-  if(dioError.response.statusCode == 401){
-    var sessionProvider = new SessionProvider();
-    sessionProvider.destroySession();
-    return dioError;
+  @override
+  Future<dynamic> onError(DioError dioError) {
+    if(dioError.response.statusCode == 401){
+      var sessionProvider = new SessionProvider();
+      sessionProvider.destroySession();
+    }
+    throw dioError;
   }
-  String errorMessage = json.decode(dioError.response.toString())["errorMessage"];
-  throw new Exception(errorMessage);
+
+  @override
+  Future<dynamic> onResponse(Response response) async {
+    final cookies = response.headers.map["set-cookie"];
+
+    if(cookies != null){
+      var sessionProvider = new SessionProvider();
+      await sessionProvider.setSession(new Session(cookies: cookies));
+    }
+    return response;
+  }
 }

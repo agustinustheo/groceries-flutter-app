@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:network/network.dart';
 
 import '../api_client.dart';
@@ -9,8 +12,9 @@ class CustomerProvider {
       client.options.headers["Authorization"] = "Basic $basicToken";
       await client.get('/customer/login');
     }
-    on Exception catch(ex){
-      throw ex;
+    on DioError catch(ex){
+      String errorMessage = json.decode(ex.response.toString())["errorMessage"];
+      throw new ApiException(errorMessage);
     }
   }
   
@@ -20,8 +24,9 @@ class CustomerProvider {
       client.options.headers["Authorization"] = "Basic $basicToken";
       await client.post('/customer/login', data: customer.encode());
     }
-    on Exception catch(ex){
-      throw ex;
+    on DioError catch(ex){
+      String errorMessage = json.decode(ex.response.toString())["errorMessage"];
+      throw new ApiException(errorMessage);
     }
   }
 }
