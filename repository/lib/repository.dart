@@ -1,4 +1,5 @@
 library repository;
 
 //repository
-export 'repository/repository.dart';
+export 'repositories/product_repository.dart';
+export 'repositories/session_repository.dart';

@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:diantaraja_mobile/common/string_image_asset.dart';
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:diantaraja_mobile/common/navigation.dart';
-import 'package:diantaraja_mobile/common/sizes.dart';
-import 'package:diantaraja_mobile/common/string_image_asset.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 

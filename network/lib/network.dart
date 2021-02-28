@@ -4,9 +4,10 @@ library network;
 
 // model
 export 'model/list_product.dart';
+export 'model/session.dart';
 
 // network
-export 'network/api_provider.dart';
-export 'network/config.dart';
+export 'network/providers/product_provider.dart';
+export 'network/providers/session_provider.dart';
 
 // utils

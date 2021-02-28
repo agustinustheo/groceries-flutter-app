@@ -1,13 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:network/model/list_product.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:network/network.dart';
 import 'package:repository/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListProductBloc extends Bloc<ListProductEvent,ListProductState> {
-  final Repository repository;
+  final ProductRepository repository;
   ListProductBloc({@required this.repository}) : super(InitialState());
 
   @override
@@ -22,29 +21,14 @@ class ListProductBloc extends Bloc<ListProductEvent,ListProductState> {
      }
    }
   }
-  // ada 3 component => class bloc, class event, class state
-  // class bloc = ngatur event apa aja, fetch, search dll
-  // class event = spesifik ngejalanin event apa, misalnya ngejalanin event search
-  // class state = ada state apa aja, misalnya ngebuild widget, => loading, datanya ga ada, failed, success
-
-//  final _repository = Repository();
-//  final _productFetcher = PublishSubject<ListProduct>();
-//
-//  Observable<ListProduct> get allProduct => _productFetcher.stream;
-//
-//  fetchAllReview() async {
-//    ListProduct listProduct = await _repository.fetchAllProduct();
-//    _productFetcher.sink.add(listProduct);
-//  }
-//
-//  dispose() {
-//    _productFetcher.close();
-//  }
-
 }
 
 abstract class ListProductState extends Equatable {
   const ListProductState();
+}
+
+abstract class ListProductEvent extends Equatable {
+  const ListProductEvent();
 }
 
 class InitialState extends ListProductState {
@@ -71,10 +55,6 @@ class FetchSuccessState extends ListProductState {
 class FetchFailedState extends ListProductState {
   @override
   List<Object> get props => [];
-}
-
-abstract class ListProductEvent extends Equatable {
-  const ListProductEvent();
 }
 
 class FetchData extends ListProductEvent {

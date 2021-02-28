@@ -1,14 +1,8 @@
-
-import 'package:bloc/bloc.dart';
 import 'package:bloc_modul/bloc/home/list_product_bloc.dart';
 import 'package:diantaraja_mobile/widget/card/card_product_search.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
-
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:diantaraja_mobile/widget/app_bar/app_bar_home.dart';
-import 'package:network/model/list_product.dart';
-import 'package:network/network.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repository/repository.dart';
 
@@ -24,7 +18,7 @@ class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ListProductBloc(repository: Repository())..add(FetchData()),
+      create: (_) => ListProductBloc(repository: ProductRepository())..add(FetchData()),
       child: Scaffold(
         appBar: CustomAppBar(
           appBarColor: Colors.blue[400],
@@ -59,30 +53,7 @@ class _ProductsPageState extends State<ProductsPage> {
               );
               }
             },
-          )
-//          StreamBuilder(
-//            stream: bloc_product.allProduct,
-//            builder: (context, AsyncSnapshot<ListProduct> snapshot) {
-//              if (snapshot.hasData) {
-//                return ListView.builder(
-//                  itemCount: snapshot.data.listProduct.length,
-//                  itemBuilder: (context, index) {
-//                    return CardProductSearch(
-//                      product: snapshot.data.listProduct[index]
-//                    );
-//                  }
-//                );
-//              } else if (snapshot.hasError) {
-//                return Text(
-//                  snapshot.error.toString(),
-//                  style: TextStyle(color: Colors.red),
-//                );
-//              }
-//              return Center(
-//                child: CircularProgressIndicator(),
-//              );
-//            },
-//          ),
+          ),
         ),
       ),
     );

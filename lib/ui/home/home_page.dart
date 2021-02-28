@@ -1,4 +1,4 @@
-import 'package:bloc_modul/bloc/home/list_product_bloc.dart';
+import 'package:bloc_modul/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
@@ -13,8 +13,6 @@ import 'package:diantaraja_mobile/widget/banner/banner_home.dart';
 import 'package:diantaraja_mobile/widget/card/card_list_shop.dart';
 import 'package:diantaraja_mobile/widget/header/space_header.dart';
 import 'package:repository/repository.dart';
-import 'package:network/model/list_product.dart';
-import 'package:network/network.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -72,7 +70,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ListProductBloc(repository: Repository())..add(FetchData()),
+      create: (_) => ListProductBloc(repository: ProductRepository())..add(FetchData()),
       child: Scaffold(
         drawer: Drawer(),
         appBar: CustomAppBar(
@@ -152,40 +150,6 @@ class _HomePageState extends State<HomePage> {
                   }
                 },
               ),
-//              StreamBuilder(
-//                stream: bloc_product.allProduct,
-//                builder: (context, AsyncSnapshot<ListProduct> snapshot) {
-//                  if (snapshot.hasData) {
-//                    return StaggeredGridView.countBuilder(
-//                      shrinkWrap: true,
-//                      primary: false,
-//                      crossAxisCount: 4,
-//                      mainAxisSpacing: 4.0,
-//                      crossAxisSpacing: 4.0,
-//                      itemCount: snapshot.data.listProduct.length,
-//                      itemBuilder: (context, index) {
-//                        return CardListShop(
-//                          width: snapshot.data.listProduct[index].width,
-//                          height: snapshot.data.listProduct[index].height,
-//                          urlProductImage: snapshot.data.listProduct[index].productImage,
-//                          urlBrandImage: snapshot.data.listProduct[index].brandImage,
-//                          productName: snapshot.data.listProduct[index].productName,
-//                          price: snapshot.data.listProduct[index].productPrice.toString(),
-//                        );
-//                      },
-//                      staggeredTileBuilder: (index) => StaggeredTile.fit(2),
-//                    );
-//                  } else if (snapshot.hasError) {
-//                    return Text(
-//                      snapshot.error.toString(),
-//                      style: TextStyle(color: Colors.red),
-//                    );
-//                  }
-//                  return Center(
-//                    child: CircularProgressIndicator(),
-//                  );
-//                },
-//              ),
             ),
           ),
         ),
