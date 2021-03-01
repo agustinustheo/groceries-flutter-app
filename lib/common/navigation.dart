@@ -19,4 +19,13 @@ class Navigation {
     Navigator.pop(context);
   }
 
+  // This method to handle back as programmatically
+  static pushAndRemoveUntil(BuildContext context, Widget child, String routeName) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (BuildContext context) => child),
+      ModalRoute.withName(routeName),
+    );
+  }
+
 }

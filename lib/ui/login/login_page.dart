@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/colors.dart';
 import 'package:diantaraja_mobile/common/custom_icons.dart';
@@ -21,24 +20,17 @@ class _LoginPageState extends State<LoginPage>{
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
 
-  goToIntro() async {
-    var _duration = Duration(seconds: 1);
-    return Timer(
-      _duration,
-      Navigation.intentWithoutBack(context, IntroPage())
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => SessionBloc(repository: SessionRepository())..add(SessionFetchData()),
       child: BlocConsumer<SessionBloc, SessionState>(
-        listener: (context,state){},
-        builder: (context,state){
+        listener: (context,state){
           if(state is SessionFetchSuccessState){
-            goToIntro();
+            Navigation.intentWithoutBack(context, IntroPage());
           }
+        },
+        builder: (context,state){
           return loginForm(context);
         },
       ),

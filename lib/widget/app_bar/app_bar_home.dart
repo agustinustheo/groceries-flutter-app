@@ -1,8 +1,13 @@
+import 'package:bloc_modul/bloc.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/ui/cart/cart.dart';
 import 'package:diantaraja_mobile/ui/home/products_page.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
+import 'package:network/network.dart';
+import 'package:repository/repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   CustomAppBar({Key key, this.addBackButton, this.appBarColor}) : preferredSize = Size.fromHeight(kToolbarHeight), super(key: key);
@@ -113,7 +118,21 @@ class _CustomAppBarState extends State<CustomAppBar>{
         ),
         InkWell(
           onTap: () {
-
+            var _repository = new SessionRepository();
+            _repository.destroySession()
+              .then((res){
+                BlocProvider.of<SessionBloc>(context).add(SessionFetchData());
+              })
+              .catchError((ex){
+                if(ex is ApiException){
+                  Alert(
+                    context: context,
+                    type: AlertType.warning,
+                    title: "Error",
+                    desc: ex.message
+                  ).show();
+                }
+              });
           },
           child: Container(
             margin: EdgeInsets.only(right: Sizes.dp25(context)),
