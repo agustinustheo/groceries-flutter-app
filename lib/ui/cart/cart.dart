@@ -4,6 +4,9 @@ import 'package:diantaraja_mobile/ui/cart/delivery.dart';
 import 'package:diantaraja_mobile/widget/card/card_list_checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
+import 'package:network/network.dart';
+import 'package:repository/repository.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class CartPage extends StatelessWidget {
   final CartBloc _cartBloc = new CartBloc();
@@ -129,7 +132,26 @@ class CartPage extends StatelessWidget {
               width: double.infinity,
               child: FlatButton(
                 color: Colors.blue[400],
-                onPressed: () => Navigation.intentWithoutBack(context, DeliveryPage()),
+                onPressed: (){
+                  var _repository = new CheckoutRepository();
+                  _repository.addCheckout(new Checkout(
+                    totalPrice: _cartBloc.totalPrice(),
+                    checkoutProducts: _cartBloc.getProduct
+                  ))
+                  .then(
+                    (res) => Navigation.intentWithoutBack(context, DeliveryPage())
+                  )
+                  .catchError((ex){
+                    if(ex is ApiException){
+                      Alert(
+                        context: context,
+                        type: AlertType.warning,
+                        title: "Error",
+                        desc: ex.message
+                      ).show();
+                    }
+                  });
+                },
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 12.0, 0, 12.0),
                   child: Text(
@@ -157,8 +179,8 @@ class CartPage extends StatelessWidget {
 
   List<Widget> generateProduct(BuildContext context, CartBloc cartBloc){
     List<Widget> widgetList = [];
-    for(CartProduct cartProduct in _cartBloc.getProduct){
-      if(cartProduct.quantity > 0){
+    for(CheckoutProduct cartProduct in _cartBloc.getProduct){
+      if(cartProduct.productQuantity > 0){
         widgetList.add(new CardListCheckout(cartProduct, cartBloc));
         widgetList.add(SizedBox(height: Sizes.dp8(context)));
       }

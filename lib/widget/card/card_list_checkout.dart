@@ -1,9 +1,10 @@
 import 'package:bloc_modul/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
+import 'package:network/network.dart';
 
 class CardListCheckout extends StatelessWidget{
-  final CartProduct cartProduct;
+  final CheckoutProduct cartProduct;
   final CartBloc cartBloc;
 
   const CardListCheckout(this.cartProduct, this.cartBloc);
@@ -32,7 +33,7 @@ class CardListCheckout extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                cartProduct.itemName,
+                cartProduct.productName,
                 style: TextStyle(
                   fontSize: Sizes.dp14(context),
                   fontFamily: 'Montserrat',
@@ -40,7 +41,7 @@ class CardListCheckout extends StatelessWidget{
                 ),
               ),
               Text(
-                cartBloc.itemQuantity(cartProduct).toString() + ' ' + cartProduct.itemUnit,
+                cartBloc.productQuantity(cartProduct).toString() + ' ' + cartProduct.productUnit,
                 style: TextStyle(
                   fontSize: Sizes.dp12(context),
                   fontFamily: 'Montserrat',
@@ -54,7 +55,7 @@ class CardListCheckout extends StatelessWidget{
           ),
         ),
         Text(
-          'Rp ' + cartBloc.itemPrice(cartProduct).toString() + ',-',
+          'Rp ' + cartBloc.productPrice(cartProduct).toString() + ',-',
           style: TextStyle(
             fontSize: Sizes.dp12(context),
             fontFamily: 'Montserrat',

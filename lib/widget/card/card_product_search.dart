@@ -2,6 +2,7 @@ import 'package:bloc_modul/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:network/model/list_product.dart';
+import 'package:network/network.dart';
 
 class CardProductSearch extends StatefulWidget {
   final Product product;
@@ -13,14 +14,15 @@ class CardProductSearch extends StatefulWidget {
 
 class _CardProductSearchState extends State<CardProductSearch> {
   CartBloc _cartBloc;
-  CartProduct _cartProduct;
+  CheckoutProduct _cartProduct;
   TextEditingController _controller;
   
   @override
   void initState() {
     super.initState();
     _cartBloc = new CartBloc();
-    _cartProduct = new CartProduct(
+    _cartProduct = new CheckoutProduct(
+      widget.product.productID,
       widget.product.productCode,
       widget.product.productBarcode,
       widget.product.productName,
@@ -29,7 +31,7 @@ class _CardProductSearchState extends State<CardProductSearch> {
       widget.product.productPrice,
       widget.product.productImage
     );
-    _controller = new TextEditingController(text: _cartBloc.itemQuantity(_cartProduct).toString());
+    _controller = new TextEditingController(text: _cartBloc.productQuantity(_cartProduct).toString());
   }
 
   @override
@@ -119,7 +121,7 @@ class _CardProductSearchState extends State<CardProductSearch> {
                 onTap: (){
                   setState(() {
                     _cartBloc.remove(_cartProduct);
-                    _controller.text = _cartBloc.itemQuantity(_cartProduct).toString();
+                    _controller.text = _cartBloc.productQuantity(_cartProduct).toString();
                   });
                 },
                 child: Container(
@@ -171,7 +173,7 @@ class _CardProductSearchState extends State<CardProductSearch> {
                 onTap: (){
                   setState(() {
                     _cartBloc.add(_cartProduct);
-                    _controller.text = _cartBloc.itemQuantity(_cartProduct).toString();
+                    _controller.text = _cartBloc.productQuantity(_cartProduct).toString();
                   });
                 },
                 child: Container(
