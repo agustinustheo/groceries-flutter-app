@@ -15,6 +15,7 @@ class ListProduct {
 }
 
 class Product {
+  String productID;
   int productPrice;
   int productBarcode;
   int productImageWidth;
@@ -29,6 +30,7 @@ class Product {
 
   Product(
       {
+        this.productID,
         this.productPrice,
         this.productBarcode,
         this.productImageWidth,
@@ -42,6 +44,7 @@ class Product {
         this.brandImage});
 
   Product.fromJson(Map<String, dynamic> json) {
+    productID = json['productID'];
     productCode = json['productCode'];
     productName = json['productName'];
     productType = json['productType'];
