@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:network/model/list_product.dart';
 import 'package:network/network.dart';
 import 'package:repository/repository.dart';
@@ -20,6 +21,17 @@ class ListProductBloc extends Bloc<ListProductEvent,ListProductState> {
        yield ListProductFetchSuccessState(listProduct: listProduct);
      }
    }
+   else if(event is SearchData)
+     {
+       yield ListProductLoadingState();
+       ListProduct listProduct = await repository.searchProduct(event.text);
+       if(listProduct.listProduct.isEmpty){
+         yield ListProductFetchFailedState();
+       }
+       else{
+         yield ListProductFetchSuccessState(listProduct: listProduct);
+       }
+     }
   }
 }
 

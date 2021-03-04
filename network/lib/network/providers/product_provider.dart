@@ -15,4 +15,15 @@ class ProductProvider {
       throw new ApiException(errorMessage);
     }
   }
+
+  Future<ListProduct> SearchProduct(String text) async {
+    try{
+      final response = await client.get('/product?name=' + text);
+      return ListProduct.fromJson(json.decode(response.toString()));
+    }
+    on DioError catch(ex){
+      String errorMessage = json.decode(ex.response.toString())["errorMessage"];
+      throw new ApiException(errorMessage);
+    }
+  }
 }

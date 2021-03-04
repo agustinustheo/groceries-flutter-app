@@ -7,5 +7,6 @@ class ProductRepository {
 
   var _productProvider = new ProductProvider();
   Future<ListProduct> fetchAllProduct() => _productProvider.fetchAllProduct();
+  Future<ListProduct> searchProduct(String text) => _productProvider.SearchProduct(text);
 
 }

@@ -21,8 +21,7 @@ class _ProductsPageState extends State<ProductsPage> {
       create: (_) => ListProductBloc(repository: ProductRepository())..add(ListProductFetchData()),
       child: Scaffold(
         appBar: CustomAppBar(
-          appBarColor: Colors.blue[400],
-          addBackButton: true,
+          isProductPage: true,
         ),
         backgroundColor: Colors.white,
         body: Container(

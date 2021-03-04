@@ -74,8 +74,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         drawer: Drawer(),
         appBar: CustomAppBar(
-          appBarColor: Colors.blue[400],
-          addBackButton: false,
+          isProductPage: false,
         ),
         backgroundColor: Colors.white,
         body: NestedScrollView(
