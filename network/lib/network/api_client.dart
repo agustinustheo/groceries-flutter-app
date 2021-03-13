@@ -30,10 +30,6 @@ class ApiInterceptors extends Interceptor {
 
   @override
   Future<dynamic> onError(DioError dioError) {
-    if(dioError.response.statusCode == 401){
-      var sessionProvider = new SessionProvider();
-      sessionProvider.destroySession();
-    }
     throw dioError;
   }
 
@@ -41,7 +37,11 @@ class ApiInterceptors extends Interceptor {
   Future<dynamic> onResponse(Response response) async {
     final cookies = response.headers.map["set-cookie"];
 
-    if(cookies != null){
+    if(response.statusCode == 401){
+      var sessionProvider = new SessionProvider();
+      sessionProvider.destroySession();
+    }
+    else if(cookies != null){
       var sessionProvider = new SessionProvider();
       await sessionProvider.setSession(new Session(cookies: cookies));
     }

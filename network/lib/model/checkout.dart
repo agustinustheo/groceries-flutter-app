@@ -44,9 +44,22 @@ class Checkout {
   }
 
   String encode() {
+    List<Map<String, dynamic>> _checkoutProducts = new List<Map<String, dynamic>>();
+    checkoutProducts.forEach((checkoutProduct) {
+      _checkoutProducts.add({
+        "productID":checkoutProduct.productID,
+        "productCode":checkoutProduct.productCode,
+        "productBarcode":checkoutProduct.productBarcode,
+        "productName":checkoutProduct.productName,
+        "productType":checkoutProduct.productType,
+        "productUnit":checkoutProduct.productUnit,
+        "productImage":checkoutProduct.productImage,
+        "productPrice":checkoutProduct.productPrice,
+        "productQuantity":checkoutProduct.productQuantity
+      });
+    });
     return json.encode(
       {
-        "checkoutID":checkoutID,
         "checkoutDate":checkoutDate,
         "totalPrice":totalPrice,
         "customerName":customerName,
@@ -56,7 +69,7 @@ class Checkout {
         "paymentMethodType":paymentMethodType,
         "paymentDate":paymentDate,
         "isPaymentConfirmed":isPaymentConfirmed,
-        "checkoutProducts":checkoutProducts
+        "checkoutProducts":_checkoutProducts
       }
     );
   }
