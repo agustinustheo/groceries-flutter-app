@@ -135,6 +135,8 @@ class CartPage extends StatelessWidget {
                 onPressed: (){
                   var _repository = new CheckoutRepository();
                   _repository.addCheckout(new Checkout(
+                    customerNote: "",
+                    paymentMethodType: "Bank Transfer",
                     totalPrice: _cartBloc.totalPrice(),
                     checkoutProducts: _cartBloc.getProduct
                   ))
