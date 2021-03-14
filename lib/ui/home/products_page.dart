@@ -22,6 +22,7 @@ class _ProductsPageState extends State<ProductsPage> {
       child: Scaffold(
         appBar: CustomAppBar(
           isProductPage: true,
+          addBackButton: true,
         ),
         backgroundColor: Colors.white,
         body: Container(

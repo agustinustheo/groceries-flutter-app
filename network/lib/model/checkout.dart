@@ -60,14 +60,14 @@ class Checkout {
     });
     return json.encode(
       {
-        "checkoutDate":checkoutDate,
+        "checkoutDate":checkoutDate == null ? "" : checkoutDate.toIso8601String(),
         "totalPrice":totalPrice,
         "customerName":customerName,
         "customerAddress":customerAddress,
         "customerPhone":customerPhone,
         "customerNote":customerNote,
         "paymentMethodType":paymentMethodType,
-        "paymentDate":paymentDate,
+        "paymentDate":paymentDate == null ? "" : paymentDate.toIso8601String(),
         "isPaymentConfirmed":isPaymentConfirmed,
         "checkoutProducts":_checkoutProducts
       }

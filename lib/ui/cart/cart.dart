@@ -141,7 +141,10 @@ class CartPage extends StatelessWidget {
                     checkoutProducts: _cartBloc.getProduct
                   ))
                   .then(
-                    (res) => Navigation.intentWithoutBack(context, DeliveryPage())
+                    (res){
+                      _cartBloc.removeAllFromList();
+                      Navigation.intentWithoutBack(context, DeliveryPage());
+                    }
                   )
                   .catchError((ex){
                     if(ex is ApiException){

@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  CustomAppBar({Key key, this.isProductPage})
+  CustomAppBar({Key key, this.isProductPage, this.addBackButton})
       : preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -19,7 +19,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Size preferredSize; // default is 56.0
 
   final bool isProductPage;
-  final bool addBackButton = true;
+  final bool addBackButton;
   final Color appBarColor = Colors.blue[400];
   final _debouncer = Debouncer(milliseconds: 500);
 
@@ -73,9 +73,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           prefixIcon: Icon(
                             Icons.search,
                             color: Colors.blue[400],
-                          )
+                          ),
+                          hintStyle: TextStyle(
+                            fontSize: 14.5,
+                            color: Colors.grey,
+                          ),
                       ),
-                    onSubmitted: (text) {
+                    onChanged: (text) {
                        BlocProvider.of<ListProductBloc>(context).add(
                            SearchData(text: text.toString())
                        );

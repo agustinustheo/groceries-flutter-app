@@ -20,6 +20,12 @@ class _SplashPageState extends State<SplashPage> {
     return Timer(_duration, f);
   }
 
+  void checkAuth() async{
+    var _repository = new CustomerRepository();
+    await _repository.checkAuth();
+    // BlocProvider.of<SessionBloc>(context).add(SessionFetchData());
+  }
+
   void goToHome() {
     Navigation.intentWithoutBack(context, StartPage());
   }
@@ -41,6 +47,7 @@ class _SplashPageState extends State<SplashPage> {
             }else if(state is SessionFetchFailedState){
               startTime(goToLogin);
             }
+            checkAuth();
             return getSplashScreen();
           },
         ),

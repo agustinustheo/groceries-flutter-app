@@ -75,6 +75,7 @@ class _HomePageState extends State<HomePage> {
         drawer: Drawer(),
         appBar: CustomAppBar(
           isProductPage: false,
+          addBackButton: false,
         ),
         backgroundColor: Colors.white,
         body: NestedScrollView(
