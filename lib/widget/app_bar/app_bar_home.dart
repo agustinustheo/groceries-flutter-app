@@ -177,7 +177,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             child: Container(
               margin: EdgeInsets.only(right: Sizes.dp25(context)),
               alignment: Alignment.center,
-              child: Icon(Icons.notifications,
+              child: Icon(Icons.logout,
                   color: Colors.white, size: Sizes.dp22(context)),
             ),
           ),
