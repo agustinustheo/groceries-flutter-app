@@ -9,6 +9,8 @@ class StringImageAsset {
   static String delivery = "assets/images/delivery.png";
   static String fbLogo = "assets/images/fb.png";
   static String googleLogo = "assets/images/google.png";
-  static String introImage = "assets/images/intro.png";
+  static String cukupTransfer = "assets/images/cukupTransfer.png";
+  static String gratisOngkir = "assets/images/gratisOngkir.png";
+  static String diantarAja = "assets/images/diantarAja.png";
   static String homeBanner = "assets/images/home_banner.jpg";
 }

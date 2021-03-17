@@ -2,14 +2,16 @@ library color;
 
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 class ColorPalette {
 
   // This class is used for custom color
   // Example:
   // static Color white = Color(0xFFFFFFFF);
 
-   static Color borderBlue = Color(0xFF004eff);
-   static Color activeBorder = Color(0xFF006aff);
+   static Color borderBlue = Colors.blue[400];
+   static Color activeBorder = Colors.blue[400];
    static Color unActiveBorder = Color(0xFFe5e5e5);
    static Color bagSearchBorder = Color(0xFFcccccc);
    static Color containerBorder = Color(0xFFa2a1a1);

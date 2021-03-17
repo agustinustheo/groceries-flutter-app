@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage>{
                   keyboardType: TextInputType.emailAddress,
                   controller: _emailController,
                   style: TextStyle(
-                    color: ColorPalette.textBlue,
+                    color: Colors.grey[800],
                     fontSize: Sizes.dp18(context),
                     fontWeight: FontWeight.normal,
                     fontFamily: 'Quicksand',

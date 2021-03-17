@@ -8,6 +8,18 @@ import 'package:diantaraja_mobile/ui/dashboard/dashboard_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+class IntroImageDescription{
+  String imageString;
+  String imageTitle;
+  String imageDescription;
+
+  IntroImageDescription(
+    this.imageString,
+    this.imageTitle,
+    this.imageDescription
+  );
+}
+
 List<T> map<T>(List list, Function handler) {
   List<T> result = [];
   for (var i = 0; i < list.length; i++) {
@@ -17,22 +29,11 @@ List<T> map<T>(List list, Function handler) {
   return result;
 }
 
-final List<String> imgList = [
-  StringImageAsset.introImage,
-  StringImageAsset.introImage,
-  StringImageAsset.introImage,
-  StringImageAsset.introImage,
+final List<IntroImageDescription> imgList = [
+  new IntroImageDescription(StringImageAsset.cukupTransfer, 'Cukup transfer!', 'Barang akan disiapkan dan diantar maksimal dalam 24 jam!'),
+  new IntroImageDescription(StringImageAsset.gratisOngkir, 'Gratis Ongkir', 'Dengan jarak maksimum 5 km!'),
+  new IntroImageDescription(StringImageAsset.diantarAja, '', 'Belanja kebutuhanmu sekarang, gak pake ribet!')
 ];
-
-final List child = map<Widget>(
-  imgList,
-  (index, i) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(8, 0, 8, 0),
-      child: Image.asset(i, fit: BoxFit.cover),
-    );
-  },
-).toList();
 
 class IntroPage extends StatefulWidget {
   @override
@@ -48,14 +49,12 @@ class _IntroPageState extends State<IntroPage> {
     var result =
     await _permissionHandler.requestPermissions([PermissionGroup.location]);
 
-    if (result[PermissionGroup.location] == PermissionStatus.granted) {
-      Navigation.intentWithoutBack(context, DashBoardPage());
-    } else if (result[PermissionGroup.location] == PermissionStatus.denied) {
+    if (result[PermissionGroup.location] == PermissionStatus.denied) {
       Alert(
         context: context,
         type: AlertType.info,
         title: "Permission",
-        desc: "You need accepted permission for access maps",
+        desc: "You need to accept permission",
         buttons: [
           DialogButton(
             child: Text(
@@ -76,105 +75,133 @@ class _IntroPageState extends State<IntroPage> {
 
   @override
   Widget build(BuildContext context) {
+    _getPermission(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: SingleChildScrollView(
-          child: buttonDemo(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          buttonDemo()
+        ]
+      )
+    );
+  }
+
+  Widget carouselItems(dynamic i){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children:[
+        Container(
+          child: Image.asset(
+            i.imageString, 
+            height: Sizes.dp80(context)
+          ),
         ),
-      ),
+        Container(
+          width: Sizes.dp72(context),
+          padding: EdgeInsets.only(
+            top: Sizes.dp10(context),
+            left: Sizes.dp10(context),
+            right: Sizes.dp10(context)
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                i.imageTitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Sizes.dp24(context),
+                  color: Colors.blue[400],
+                  fontFamily: 'Quicksand',
+                  fontWeight: FontWeight.w600
+                ),
+              ),
+              SizedBox(
+                height: Sizes.dp6(context)
+              ),
+              Text(
+                i.imageDescription,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Sizes.dp16(context),
+                  color: Colors.blue[400],
+                  fontFamily: 'Quicksand',
+                  fontWeight: FontWeight.w600
+                ),
+              )
+            ],
+          )
+        )
+      ]
     );
   }
 
   Widget buttonDemo() {
-    final basicSlider = CarouselSlider(
-      items: child,
-      scrollPhysics: ClampingScrollPhysics(),
-      enableInfiniteScroll: false,
-      autoPlay: false,
-      enlargeCenterPage: true,
-      viewportFraction: 0.9,
-      aspectRatio: 1.0,
-      initialPage: 0,
-      onPageChanged: (index) {
-        setState(() {
-          _current = index;
-        });
+    List child = map<Widget>(
+      imgList,
+      (index, i) {
+        if(index + 1 == imgList.length){
+          return GestureDetector(
+            onHorizontalDragUpdate: (details){
+              if (details.delta.dx < 0) {
+                Navigation.intentWithoutBack(context, DashBoardPage());
+              }
+            },
+            child: carouselItems(i)
+          );
+        }
+        else{
+          return carouselItems(i);
+        }
       },
-    );
-    return Column(children: [
-      Padding(
-        padding: EdgeInsets.fromLTRB(0, 40, 0,0),
-        child: Stack(
-          children: <Widget>[
-            basicSlider,
-            Positioned(
-                top: 100.0,
-                left: 0.0,
-                right: 0.0,
+    ).toList();
+    
+    return Column(
+      children: [
+        Container(
+          child: Column(
+            children: <Widget>[
+              CarouselSlider(
+                items: child,
+                scrollPhysics: ClampingScrollPhysics(),
+                enableInfiniteScroll: false,
+                autoPlay: false,
+                enlargeCenterPage: true,
+                viewportFraction: .9,
+                aspectRatio: .8,
+                initialPage: 0,
+                onPageChanged: (index) {
+                  setState(() {
+                    _current = index;
+                  });
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: Sizes.dp10(context)
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: map<Widget>(imgList, (index, url) {
                     return Container(
-                      width: Sizes.dp8(context),
-                      height: Sizes.dp8(context),
-                      margin: EdgeInsets.symmetric(vertical: 300.0, horizontal: 2.0),
+                      width: Sizes.dp14(context),
+                      height: Sizes.dp14(context),
+                      margin: EdgeInsets.symmetric(horizontal: Sizes.dp6(context)),
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: ColorPalette.borderBlue),
-                          color: _current == index ? ColorPalette.borderBlue : Colors.white),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: ColorPalette.borderBlue),
+                        color: _current == index ? ColorPalette.borderBlue : Colors.white
+                      ),
                     );
                   }),
-                )),
-          ],
-        ),
-      ),
-      Container(
-        padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
-              width: Sizes.width(context) / 1.5,
-              child: Text("Cara pemakai'an Diantar aja akan ditulis disini",
-              style: TextStyle(color: ColorPalette.textGrey,fontSize: Sizes.dp14(context),fontWeight: FontWeight.normal, fontFamily: 'Quicksand'),
-              textAlign: TextAlign.center,),),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Flexible(
-          child: FlatButton(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(color: ColorPalette.unActiveBorder, width: 3),
-              borderRadius: BorderRadius.circular(25.0),
-            ),
-            color: Colors.white,
-            onPressed: () =>  _getPermission(context),
-            child: Container(
-                width: Sizes.width(context) / 3,
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                child: Center(
-                    child: Text(
-                  'Lewatkan',
-                  style: TextStyle(color: ColorPalette.textGrey, fontSize: Sizes.dp14(context),fontWeight: FontWeight.normal, fontFamily: 'Quicksand'),
-                ),),),
+                ),
+              ),
+            ],
           ),
         ),
-        SizedBox(
-          width: Sizes.dp16(context),
-        ),
-        Flexible(
-          child: FlatButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0),
-            ),
-            color: ColorPalette.backgroundButtonRed,
-            onPressed: () => _current != 3 ? basicSlider.nextPage(duration: Duration(milliseconds: 300), curve: Curves.linear) : _getPermission(context),
-            child: Container(
-              width: Sizes.width(context) / 3,
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-              child: Center(
-                child: Text(
-                  'Lanjut',
-                  style: TextStyle(color: ColorPalette.backgroundWhite, fontSize: Sizes.dp14(context),fontWeight: FontWeight.normal, fontFamily: 'Quicksand'),
-                ),),),
-          ),
-        ),
-      ]),
-    ]);
+      ]
+    );
   }
 }
