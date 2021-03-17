@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:diantaraja_mobile/common/debouncer.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/colors.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
@@ -42,6 +43,7 @@ class IntroPage extends StatefulWidget {
 
 class _IntroPageState extends State<IntroPage> {
   int _current = 0;
+  final _debouncer = Debouncer(milliseconds: 200);
 
   // request permission for location
   void _getPermission(BuildContext context) async {
@@ -146,7 +148,9 @@ class _IntroPageState extends State<IntroPage> {
           return GestureDetector(
             onHorizontalDragUpdate: (details){
               if (details.delta.dx < 0) {
-                Navigation.intentWithoutBack(context, DashBoardPage());
+                _debouncer.run(() =>
+                  Navigation.intentWithoutBack(context, DashBoardPage())
+                );
               }
             },
             child: carouselItems(i)

@@ -21,13 +21,13 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool isProductPage;
   final bool addBackButton;
   final Color appBarColor = Colors.blue[400];
-  final _debouncer = Debouncer(milliseconds: 500);
 
   @override
   _CustomAppBarState createState() => _CustomAppBarState();
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
+  final _debouncer = Debouncer(milliseconds: 500);
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +80,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           ),
                       ),
                     onChanged: (text) {
-                       BlocProvider.of<ListProductBloc>(context).add(
-                           SearchData(text: text.toString())
-                       );
+                       _debouncer.run(() => 
+                        BlocProvider.of<ListProductBloc>(context)
+                          .add(SearchData(text: text.toString()))
+                      );
                     },
                   ),
                 ),
@@ -166,11 +167,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
               }).catchError((ex) {
                 if (ex is ApiException) {
                   Alert(
-                          context: context,
-                          type: AlertType.warning,
-                          title: "Error",
-                          desc: ex.message)
-                      .show();
+                    context: context,
+                    type: AlertType.warning,
+                    title: "Error",
+                    desc: ex.message
+                  ).show();
                 }
               });
             },
