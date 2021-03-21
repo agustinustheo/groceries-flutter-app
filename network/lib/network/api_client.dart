@@ -17,6 +17,15 @@ Dio _getClient() {
   return _dio;
 }
 
+String processError(DioError ex){
+  String response = ex.response.toString();
+  if(response == "") 
+  {
+    return ex.response.statusMessage;
+  }
+  return json.decode(ex.response.toString())["errorMessage"];
+}
+
 class ApiInterceptors extends Interceptor {
   @override
   Future<dynamic> onRequest(RequestOptions options) async {
@@ -30,6 +39,10 @@ class ApiInterceptors extends Interceptor {
 
   @override
   Future<dynamic> onError(DioError dioError) {
+    if(dioError.response.statusCode == 401){
+      var sessionProvider = new SessionProvider();
+      sessionProvider.destroySession();
+    }
     throw dioError;
   }
 
@@ -38,8 +51,7 @@ class ApiInterceptors extends Interceptor {
     final cookies = response.headers.map["set-cookie"];
 
     if(response.statusCode == 401){
-      var sessionProvider = new SessionProvider();
-      sessionProvider.destroySession();
+      throw new DioError(response: response);
     }
     else if(cookies != null){
       var sessionProvider = new SessionProvider();

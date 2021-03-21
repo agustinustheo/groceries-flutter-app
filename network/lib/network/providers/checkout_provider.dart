@@ -11,7 +11,7 @@ class CheckoutProvider {
       await client.get('/checkout', queryParameters: queryParameters);
     }
     on DioError catch(ex){
-      String errorMessage = json.decode(ex.response.toString())["errorMessage"];
+      String errorMessage = processError(ex);
       throw new ApiException(errorMessage);
     }
   }
@@ -21,7 +21,7 @@ class CheckoutProvider {
       await client.post('/checkout', data: checkout.encode());
     }
     on DioError catch(ex){
-      String errorMessage = json.decode(ex.response.toString())["errorMessage"];
+      String errorMessage = processError(ex);
       throw new ApiException(errorMessage);
     }
   }

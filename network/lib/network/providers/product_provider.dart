@@ -11,7 +11,7 @@ class ProductProvider {
       return ListProduct.fromJson(json.decode(response.toString()));
     }
     on DioError catch(ex){
-      String errorMessage = json.decode(ex.response.toString())["errorMessage"];
+      String errorMessage = processError(ex);
       throw new ApiException(errorMessage);
     }
   }
@@ -22,7 +22,7 @@ class ProductProvider {
       return ListProduct.fromJson(json.decode(response.toString()));
     }
     on DioError catch(ex){
-      String errorMessage = json.decode(ex.response.toString())["errorMessage"];
+      String errorMessage = processError(ex);
       throw new ApiException(errorMessage);
     }
   }

@@ -11,8 +11,8 @@ class CustomerProvider {
       await client.get('/customer/checkauth');
     }
     on DioError catch(ex){
-      String errorMessage = json.decode(ex.response.toString())["errorMessage"];
-      throw new ApiException(errorMessage);
+      String errorMessage = processError(ex);
+      print(errorMessage);
     }
   }
 
@@ -23,7 +23,7 @@ class CustomerProvider {
       await client.get('/customer/login');
     }
     on DioError catch(ex){
-      String errorMessage = json.decode(ex.response.toString())["errorMessage"];
+      String errorMessage = processError(ex);
       throw new ApiException(errorMessage);
     }
   }
@@ -35,7 +35,7 @@ class CustomerProvider {
       await client.post('/customer/login', data: customer.encode());
     }
     on DioError catch(ex){
-      String errorMessage = json.decode(ex.response.toString())["errorMessage"];
+      String errorMessage = processError(ex);
       throw new ApiException(errorMessage);
     }
   }
