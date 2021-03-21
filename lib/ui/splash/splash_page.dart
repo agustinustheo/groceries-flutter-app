@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:diantaraja_mobile/ui/intro/start_page.dart';
-import 'package:diantaraja_mobile/ui/login/login_page.dart';
+import 'package:diantaraja_mobile/ui/auth/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';

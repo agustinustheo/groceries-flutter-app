@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/ui/home/home_page.dart';
-import 'package:diantaraja_mobile/ui/login/login_page.dart';
+import 'package:diantaraja_mobile/ui/auth/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_modul/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
