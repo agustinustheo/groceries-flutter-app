@@ -10,6 +10,8 @@ class ColorPalette {
   // Example:
   // static Color white = Color(0xFFFFFFFF);
 
+  static Color primaryThemeSwatch = Colors.blue;
+
    static Color borderBlue = Colors.blue[400];
    static Color activeBorder = Colors.blue[400];
    static Color unActiveBorder = Color(0xFFe5e5e5);

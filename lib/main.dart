@@ -1,3 +1,4 @@
+import 'package:diantaraja_mobile/common/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/ui/splash/splash_page.dart';
 
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'DiantarAja Apps',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: ColorPalette.primaryThemeSwatch,
       ),
       home: SplashPage(),
     );
