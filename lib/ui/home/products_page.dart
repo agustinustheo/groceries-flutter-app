@@ -12,8 +12,6 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
-  final String text_search = "kopi susu";
-
   //BlocProvider.of<ListProductBloc>(context).add(SearchData(text: text_search));
   @override
   Widget build(BuildContext context) {

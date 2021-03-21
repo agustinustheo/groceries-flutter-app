@@ -35,6 +35,7 @@ dependencies:
   flare_flutter: ^1.8.3
   carousel_slider: ^1.4.1
   rflutter_alert:
+  provider: ^4.3.3
 
   bloc_modul:
     path: bloc

@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:network/network.dart';
 
-class CartBloc extends ChangeNotifier {
+class CartBloc with ChangeNotifier {
   /// State of the cart.
   static List<CheckoutProduct> productList = new List<CheckoutProduct>();
 
@@ -23,6 +23,7 @@ class CartBloc extends ChangeNotifier {
       product.productQuantity = 1;
       productList.add(product);
     }
+    notifyListeners();
   }
 
   int totalProductQuantity(){
@@ -33,6 +34,14 @@ class CartBloc extends ChangeNotifier {
     return productQuantity;
   }
 
+  bool doesProductExists(){
+    int productQuantity = 0;
+    productList.asMap().forEach((i, value){
+      productQuantity += value.productQuantity;
+    });
+    return productQuantity > 0;
+  }
+
   /// Removes [CheckoutProduct] from cart.
   void remove(CheckoutProduct product) {
     productList.asMap().forEach((i, value){
@@ -40,6 +49,7 @@ class CartBloc extends ChangeNotifier {
         value.productQuantity -= 1;
       }
     });
+    notifyListeners();
   }
 
   /// Removes all [CheckoutProduct] in cart.
@@ -47,6 +57,7 @@ class CartBloc extends ChangeNotifier {
     for(int i = productList.length - 1; i >= 0; i--){
       productList.removeAt(i);
     }
+    notifyListeners();
   }
 
   /// Calculates the price of an [CheckoutProduct].

@@ -2,10 +2,12 @@ import 'package:bloc_modul/bloc.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/ui/cart/cart.dart';
 import 'package:diantaraja_mobile/ui/home/products_page.dart';
+import 'package:diantaraja_mobile/widget/text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:diantaraja_mobile/common/debouncer.dart';
 import 'package:network/network.dart';
+import 'package:provider/provider.dart';
 import 'package:repository/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -28,6 +30,31 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _CustomAppBarState extends State<CustomAppBar> {
   final _debouncer = Debouncer(milliseconds: 500);
+
+  Widget productBubble(BuildContext context){
+    CartBloc _cartBloc = new CartBloc();
+    if(_cartBloc.doesProductExists()){
+      return Container(
+        width: Sizes.dp14(context),
+        height: Sizes.dp14(context),
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.circular(100.0)
+        ),
+        child: Center(
+          child: MontserratText(
+            _cartBloc.totalProductQuantity().toString(),
+            fontSize: Sizes.dp8(context),
+            textColor: Colors.white,
+          ),
+        ),
+      );
+    }
+    return Container(
+      width: Sizes.dp12(context),
+      height: Sizes.dp12(context),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,8 +182,22 @@ class _CustomAppBarState extends State<CustomAppBar> {
             child: Container(
               margin: EdgeInsets.only(right: Sizes.dp14(context)),
               alignment: Alignment.center,
-              child: Icon(Icons.shopping_cart,
-                  color: Colors.white, size: Sizes.dp22(context)),
+              child: Stack(
+                children: [
+                  Icon(
+                    Icons.shopping_cart,
+                    color: Colors.white, 
+                    size: Sizes.dp22(context)
+                  ),
+                  Positioned(
+                    right: 0,
+                    child: ChangeNotifierProvider<CartBloc>(
+                      create: (context) => CartBloc(),
+                      child: productBubble(context),
+                    ),
+                  ),
+                ]
+              ),
             ),
           ),
           InkWell(

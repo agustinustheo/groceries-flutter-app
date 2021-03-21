@@ -1,3 +1,4 @@
+import 'package:diantaraja_mobile/ui/auth/forgot_password_page.dart';
 import 'package:diantaraja_mobile/ui/auth/register_page.dart';
 import 'package:diantaraja_mobile/widget/button/custom_button.dart';
 import 'package:diantaraja_mobile/widget/text/custom_text.dart';
@@ -86,7 +87,9 @@ class _LoginPageState extends State<LoginPage>{
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
-                      onTap: (){},
+                      onTap: (){
+                        Navigation.intent(context, ForgotPasswordPage());
+                      },
                       child: Center(
                         child: MontserratText(
                           "Lupa kata sandi?"
