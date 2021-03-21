@@ -1,11 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:diantaraja_mobile/common/debouncer.dart';
+import 'package:diantaraja_mobile/common/navigation.dart';
+import 'package:diantaraja_mobile/ui/dashboard/dashboard_page.dart';
+import 'package:diantaraja_mobile/widget/button/custom_button.dart';
+import 'package:diantaraja_mobile/widget/text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/colors.dart';
-import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:diantaraja_mobile/common/string_image_asset.dart';
-import 'package:diantaraja_mobile/ui/dashboard/dashboard_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -31,9 +32,9 @@ List<T> map<T>(List list, Function handler) {
 }
 
 final List<IntroImageDescription> imgList = [
+  new IntroImageDescription(StringImageAsset.diantarAja, '', 'Belanja kebutuhanmu sekarang, gak pake ribet!'),
   new IntroImageDescription(StringImageAsset.cukupTransfer, 'Cukup transfer!', 'Barang akan disiapkan dan diantar maksimal dalam 24 jam!'),
   new IntroImageDescription(StringImageAsset.gratisOngkir, 'Gratis Ongkir', 'Dengan jarak maksimum 5 km!'),
-  new IntroImageDescription(StringImageAsset.diantarAja, '', 'Belanja kebutuhanmu sekarang, gak pake ribet!')
 ];
 
 class IntroPage extends StatefulWidget {
@@ -43,7 +44,6 @@ class IntroPage extends StatefulWidget {
 
 class _IntroPageState extends State<IntroPage> {
   int _current = 0;
-  final _debouncer = Debouncer(milliseconds: 200);
 
   // request permission for location
   void _getPermission(BuildContext context) async {
@@ -83,7 +83,7 @@ class _IntroPageState extends State<IntroPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          buttonDemo()
+          slider()
         ]
       )
     );
@@ -110,28 +110,22 @@ class _IntroPageState extends State<IntroPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
+              MontserratText(
                 i.imageTitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: Sizes.dp24(context),
-                  color: Colors.blue[400],
-                  fontFamily: 'Quicksand',
-                  fontWeight: FontWeight.w600
-                ),
+                fontSize: Sizes.dp24(context),
+                textColor: Colors.blue[400],
+                fontWeight: FontWeight.w600
               ),
               SizedBox(
                 height: Sizes.dp6(context)
               ),
-              Text(
+              MontserratText(
                 i.imageDescription,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: Sizes.dp16(context),
-                  color: Colors.blue[400],
-                  fontFamily: 'Quicksand',
-                  fontWeight: FontWeight.w600
-                ),
+                fontSize: Sizes.dp16(context),
+                textColor: Colors.blue[400],
+                fontWeight: FontWeight.w500
               )
             ],
           )
@@ -140,25 +134,46 @@ class _IntroPageState extends State<IntroPage> {
     );
   }
 
-  Widget buttonDemo() {
+  Widget buttonNext(int index, void Function() onPressed){
+    if(imgList.length - 1 == index){
+    return FullFlatButton(
+        backgroundColor: Colors.blue[400],
+        margin: EdgeInsets.only(
+          left: Sizes.dp16(context),
+          top: Sizes.dp22(context),
+          right: Sizes.dp16(context)
+        ),
+        child: MontserratText(
+          "Mulai sekarang!",
+          textColor: Colors.white,
+          fontWeight: FontWeight.bold
+        ),
+        onPressed: onPressed
+      );
+    }
+    
+    return FullFlatButton(
+      backgroundColor: Colors.white,
+      margin: EdgeInsets.only(
+        left: Sizes.dp16(context),
+        top: Sizes.dp22(context),
+        right: Sizes.dp16(context)
+      ),
+      child: MontserratText(
+        "Lewati dan mulai sekarang!",
+        textColor: Colors.blue[400],
+        fontWeight: FontWeight.w500,
+        textDecoration: TextDecoration.underline,
+      ),
+      onPressed: onPressed
+    );
+  }
+
+  Widget slider() {
     List child = map<Widget>(
       imgList,
       (index, i) {
-        if(index + 1 == imgList.length){
-          return GestureDetector(
-            onHorizontalDragUpdate: (details){
-              if (details.delta.dx < 0) {
-                _debouncer.run(() =>
-                  Navigation.intentWithoutBack(context, DashBoardPage())
-                );
-              }
-            },
-            child: carouselItems(i)
-          );
-        }
-        else{
-          return carouselItems(i);
-        }
+        return carouselItems(i);
       },
     ).toList();
     
@@ -174,7 +189,7 @@ class _IntroPageState extends State<IntroPage> {
                 autoPlay: false,
                 enlargeCenterPage: true,
                 viewportFraction: .9,
-                aspectRatio: .8,
+                aspectRatio: .9,
                 initialPage: 0,
                 onPageChanged: (index) {
                   setState(() {
@@ -182,10 +197,7 @@ class _IntroPageState extends State<IntroPage> {
                   });
                 },
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: Sizes.dp10(context)
-                ),
+              Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: map<Widget>(imgList, (index, url) {
@@ -202,6 +214,10 @@ class _IntroPageState extends State<IntroPage> {
                   }),
                 ),
               ),
+              buttonNext(
+                _current,
+                () => Navigation.intentWithoutBack(context, DashBoardPage()),
+              )
             ],
           ),
         ),

@@ -60,25 +60,9 @@ class _SplashPageState extends State<SplashPage> {
       children: <Widget>[
         Center(
           child: SizedBox(
-            height: Sizes.width(context) / 2.5,
-            width: Sizes.width(context) / 2.5,
+            height: Sizes.dp80(context),
+            width: Sizes.dp80(context),
             child: Image.asset(StringImageAsset.logo)
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(bottom: 20),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Text(
-              'v.1.0',
-              style: TextStyle(
-                fontSize: Sizes.dp16(context),
-                color: Colors.blue,
-                fontFamily: 'Quicksand',
-                fontWeight: FontWeight.bold,
-                letterSpacing: 3
-              ),
-            ),
           ),
         ),
       ],

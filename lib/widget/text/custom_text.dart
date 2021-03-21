@@ -9,6 +9,8 @@ class MontserratText extends StatelessWidget{
   final FontWeight fontWeight;
   final EdgeInsetsGeometry margin;
   final TextAlign textAlign;
+  final FontStyle fontStyle;
+  final TextDecoration textDecoration;
 
   MontserratText(
     this.text,
@@ -17,7 +19,9 @@ class MontserratText extends StatelessWidget{
       this.fontSize,
       this.fontWeight,
       this.margin,
-      this.textAlign
+      this.textAlign,
+      this.fontStyle,
+      this.textDecoration,
     }
   );
 
@@ -32,7 +36,9 @@ class MontserratText extends StatelessWidget{
           color: textColor == null ? ColorPalette.textLoginBlack : textColor, 
           fontFamily: 'Montserrat', 
           fontSize: fontSize == null ? Sizes.dp16(context) : fontSize, 
-          fontWeight: fontWeight == null ? FontWeight.normal : fontWeight
+          fontWeight: fontWeight == null ? FontWeight.normal : fontWeight,
+          fontStyle: fontStyle == null ? FontStyle.normal : fontStyle,
+          decoration: textDecoration == null ? TextDecoration.none : textDecoration
         ),
       ),
     );
