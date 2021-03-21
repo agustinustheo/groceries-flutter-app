@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/ui/home/home_page.dart';
 import 'package:diantaraja_mobile/ui/auth/login_page.dart';
+import 'package:diantaraja_mobile/widget/alert_dialog/pop_up_alert.dart';
+import 'package:diantaraja_mobile/widget/text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_modul/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,32 +42,38 @@ class _DashBoardPageState extends State<DashBoardPage> with TickerProviderStateM
   Widget mainWidget(BuildContext context){
     return WillPopScope(
       onWillPop: () {
-        return Alert(
-          context: context,
-          type: AlertType.warning,
-          title: "Warning",
-          desc: "Are you sure want to exit?",
-          buttons: [
-            DialogButton(
-              child: Text(
-                "No",
-                style: TextStyle(
-                    color: Colors.white, fontSize: 20),
+        CartBloc _cartBloc = new CartBloc();
+        if(_cartBloc.totalProductQuantity() > 0){
+          return showAlert(
+            context: context,
+            alertType: AlertType.warning,
+            title: "Warning",
+            desc: "You have " + _cartBloc.totalProductQuantity().toString() + " products in your cart.\nAre you sure want to exit?",
+            dialogs: [
+              DialogButton(
+                child: MontserratText(
+                  "No",
+                  textColor: Colors.white,
+                  fontWeight: FontWeight.bold
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+                width: 120,
               ),
-              onPressed: () => Navigator.of(context).pop(),
-              width: 120,
-            ),
-            DialogButton(
-              child: Text(
-                "Yes",
-                style: TextStyle(
-                    color: Colors.white, fontSize: 20),
-              ),
-              onPressed: () => exit(0),
-              width: 120,
-            )
-          ],
-        ).show();
+              DialogButton(
+                child: MontserratText(
+                  "Yes",
+                  textColor: Colors.white,
+                  fontWeight: FontWeight.bold
+                ),
+                onPressed: () => exit(0),
+                width: 120,
+              )
+            ],
+          );
+        }
+        else{
+          exit(0);
+        }
       },
       child: Scaffold(
         body: _list[_page],

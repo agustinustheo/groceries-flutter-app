@@ -25,6 +25,14 @@ class CartBloc extends ChangeNotifier {
     }
   }
 
+  int totalProductQuantity(){
+    int productQuantity = 0;
+    productList.asMap().forEach((i, value){
+      productQuantity += value.productQuantity;
+    });
+    return productQuantity;
+  }
+
   /// Removes [CheckoutProduct] from cart.
   void remove(CheckoutProduct product) {
     productList.asMap().forEach((i, value){
