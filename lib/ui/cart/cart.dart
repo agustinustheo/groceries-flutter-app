@@ -1,7 +1,9 @@
 import 'package:bloc_modul/bloc.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/ui/cart/delivery.dart';
+import 'package:diantaraja_mobile/widget/button/custom_button.dart';
 import 'package:diantaraja_mobile/widget/card/card_list_checkout.dart';
+import 'package:diantaraja_mobile/widget/text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:network/network.dart';
@@ -128,52 +130,40 @@ class CartPage extends StatelessWidget {
               )
             ),
             SizedBox(height: Sizes.dp14(context)),
-            SizedBox(
-              width: double.infinity,
-              child: FlatButton(
-                color: Colors.blue[400],
-                onPressed: (){
-                  var _repository = new CheckoutRepository();
-                  _repository.addCheckout(new Checkout(
-                    customerNote: "",
-                    paymentMethodType: "Bank Transfer",
-                    totalPrice: _cartBloc.totalPrice(),
-                    checkoutProducts: _cartBloc.getProduct
-                  ))
-                  .then(
-                    (res){
-                      _cartBloc.removeAllFromList();
-                      Navigation.intentWithoutBack(context, DeliveryPage());
-                    }
-                  )
-                  .catchError((ex){
-                    if(ex is ApiException){
-                      Alert(
-                        context: context,
-                        type: AlertType.warning,
-                        title: "Error",
-                        desc: ex.message
-                      ).show();
-                    }
-                  });
-                },
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 12.0, 0, 12.0),
-                  child: Text(
-                    "Lanjutkan",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: Sizes.dp16(context),
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
-                    ),
-                  ),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
+            FullFlatButton(
+              backgroundColor: Colors.blue[400],
+              onPressed: (){
+                var _repository = new CheckoutRepository();
+                _repository.addCheckout(new Checkout(
+                  customerNote: "",
+                  paymentMethodType: "Bank Transfer",
+                  totalPrice: _cartBloc.totalPrice(),
+                  checkoutProducts: _cartBloc.getProduct
+                ))
+                .then(
+                  (res){
+                    _cartBloc.removeAllFromList();
+                    Navigation.intentWithoutBack(context, DeliveryPage());
+                  }
+                )
+                .catchError((ex){
+                  if(ex is ApiException){
+                    Alert(
+                      context: context,
+                      type: AlertType.warning,
+                      title: "Error",
+                      desc: ex.message
+                    ).show();
+                  }
+                });
+              },
+              child: MontserratText(
+                "Lanjutkan",
+                textAlign: TextAlign.center,
+                textColor: Colors.white,
+                fontSize: Sizes.dp16(context),
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1,
               ),
             ),
           ],

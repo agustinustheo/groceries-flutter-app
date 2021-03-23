@@ -84,6 +84,10 @@ class Sizes {
     return MediaQuery.of(context).size.width / 4;
   }
 
+  static dp58(BuildContext context) {
+    return MediaQuery.of(context).size.width / 3;
+  }
+
   static dp60(BuildContext context) {
     return MediaQuery.of(context).size.width / 2;
   }

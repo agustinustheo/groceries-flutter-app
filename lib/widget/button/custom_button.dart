@@ -49,6 +49,48 @@ class RaisedGradientButton extends StatelessWidget {
   }
 }
 
+class SizedFlatButton extends StatelessWidget{
+  final double width;
+  final Color backgroundColor;
+  final EdgeInsetsGeometry margin;
+  final void Function() onPressed;
+  final Widget child;
+
+  SizedFlatButton({
+    this.width,
+    this.backgroundColor,
+    this.margin,
+    this.onPressed,
+    this.child
+  });
+
+  @override
+  Widget build(BuildContext context){
+    return SizedBox(
+      width: width == null ? Sizes.dp58(context) : width,
+      child: Container(
+        padding: margin == null ? EdgeInsets.zero : margin,
+        child: FlatButton(
+          color: backgroundColor == null ? Colors.white : backgroundColor,
+          onPressed: onPressed == null ? (){} : onPressed,
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: Sizes.dp14(context),
+              bottom: Sizes.dp14(context)
+            ),
+            child: child == null ? Container() : child,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              Sizes.dp12(context)
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class FullFlatButton extends StatelessWidget{
   final Color backgroundColor;
   final EdgeInsetsGeometry margin;
