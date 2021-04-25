@@ -1,3 +1,4 @@
+import 'package:diantaraja_mobile/ui/auth/login_page.dart';
 import 'package:diantaraja_mobile/widget/app_bar/app_bar_simple.dart';
 import 'package:diantaraja_mobile/widget/button/custom_button.dart';
 import 'package:diantaraja_mobile/widget/text/custom_text.dart';
@@ -23,6 +24,10 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage>{
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
+  TextEditingController _confirmPasswordController = new TextEditingController();
+  TextEditingController _nameController = new TextEditingController();
+  TextEditingController _addressController = new TextEditingController();
+  TextEditingController _phoneController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage>{
                 fontWeight: FontWeight.bold
               ),
               CustomTextFormField(
-                _emailController, 
+                _nameController, 
                 hintText: "Nama Lengkap",
                 padding: EdgeInsets.only(
                   left: Sizes.dp16(context),
@@ -91,7 +96,7 @@ class _RegisterPageState extends State<RegisterPage>{
                 ),
               ),
               CustomTextFormField(
-                _passwordController, 
+                _confirmPasswordController, 
                 hintText: "Konfirmasi Kata Sandi",
                 obscureText: true,
                 suffixIcon: Icon(CustomIcons.lock),
@@ -102,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage>{
                 ),
               ),
               CustomTextFormField(
-                _emailController, 
+                _phoneController, 
                 hintText: "Nomor Handphone",
                 padding: EdgeInsets.only(
                   left: Sizes.dp16(context),
@@ -111,7 +116,7 @@ class _RegisterPageState extends State<RegisterPage>{
                 ),
               ),
               CustomTextFormField(
-                _emailController, 
+                _addressController, 
                 hintText: "Alamat",
                 padding: EdgeInsets.only(
                   left: Sizes.dp16(context),
@@ -149,9 +154,23 @@ class _RegisterPageState extends State<RegisterPage>{
                 ),
                 onPressed: () {
                   var _repository = new CustomerRepository();
-                  _repository.login(_emailController.text, _passwordController.text)
+                  _repository.register(new Customer(
+                    customerName: _nameController.text,
+                    customerEmail: _emailController.text,
+                    customerPassword: _passwordController.text,
+                    customerPhone: _phoneController.text,
+                    customerAddress: _addressController.text
+                  ))
                     .then((res){
-                      BlocProvider.of<SessionBloc>(context).add(SessionFetchData());
+                      Alert(
+                        context: context,
+                        type: AlertType.success,
+                        title: "Registration Success",
+                        desc: "Please confirm your email address to complete your registration",
+                        closeFunction: (){
+                          Navigation.intent(context, LoginPage());
+                        }
+                      ).show();
                     })
                     .catchError((ex){
                       if(ex is ApiException){

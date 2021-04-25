@@ -32,7 +32,7 @@ class CustomerProvider {
     try{
       String basicToken = encodeStringBase64(customer.customerEmail + ":" + customer.customerPassword);
       client.options.headers["Authorization"] = "Basic $basicToken";
-      await client.post('/customer/login', data: customer.encode());
+      await client.post('/customer', data: customer.encode());
     }
     on DioError catch(ex){
       String errorMessage = processError(ex);
