@@ -1,69 +1,34 @@
-import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:network/network.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'list_checkout_product.dart';
+
 class CartBloc extends Bloc<CartEvent,CartState> {
-  /// State of the cart.
-  static List<CheckoutProduct> productList = new List<CheckoutProduct>();
   CartBloc() : super(CartInitialState());
 
   @override
   Stream<CartState> mapEventToState(CartEvent event) async*{
    if(event is CartFetchData){
     yield CartLoadingState();
-    yield CartFetchSuccessState(productList: productList);
-   }
-   else if(event is CartFetchTotalCartQuantity){
-    yield CartLoadingState();
-    int cartQuantity = 0;
-    productList.asMap().forEach((i, value){
-      cartQuantity += value.productQuantity;
+    int totalQuantity = 0;
+    int totalPrice = 0;
+    ListCheckoutProduct.productList.asMap().forEach((i, value){
+      totalPrice += (value.productQuantity * value.productPrice);
+      totalQuantity += value.productQuantity;
     });
-    yield CartFetchTotalCartQuantitySuccessState(quantity: cartQuantity);
-   }
-   else if(event is CartFetchProductQuantity){
-    yield CartLoadingState();
-    int productQuantity = 0;
-    productList.asMap().forEach((i, value){
-      if(value.productCode == event.product.productCode){
-        productQuantity = value.productQuantity;
-      }
-    });
-    yield CartFetchProductQuantitySuccessState(quantity: productQuantity);
-   }
-   else if(event is CartFetchTotalPrice){
-    yield CartLoadingState();
-    int total = 0;
-    productList.asMap().forEach((i, value){
-      total += (value.productQuantity * value.productPrice);
-    });
-    yield CartFetchTotalPriceSuccessState(totalPrice: total);
-   }
-   else if(event is CartFetchTotalProductPrice){
-    yield CartLoadingState();
-    int total = 0;
-    productList.asMap().forEach((i, value){
-      if(value.productCode == event.product.productCode){
-        total += (value.productQuantity * value.productPrice);
-      }
-    });
-    yield CartFetchTotalProductPriceSuccessState(totalProductPrice: total);
-   }
-   else if(event is CartCheckIfProductExists){
-    yield CartLoadingState();
-    int productQuantity = 0;
-    productList.asMap().forEach((i, value){
-      productQuantity += value.productQuantity;
-    });
-    yield CartCheckIfProductExistsSuccessState(exists: productQuantity > 0);
+    yield CartFetchSuccessState(
+      productList: ListCheckoutProduct.productList, 
+      totalPrice: totalPrice, 
+      totalQuantity: totalQuantity,
+    );
    }
    else if(event is CartAddProduct){
     yield CartLoadingState();
     bool isProductExists = false;
-    productList.asMap().forEach((i, value){
+    ListCheckoutProduct.productList.asMap().forEach((i, value){
       if(value.productCode == event.product.productCode){
         value.productQuantity += 1;
         isProductExists = true;
@@ -72,13 +37,13 @@ class CartBloc extends Bloc<CartEvent,CartState> {
     
     if(!isProductExists) {
       event.product.productQuantity = 1;
-      productList.add(event.product);
+      ListCheckoutProduct.productList.add(event.product);
     }
     yield CartAddProductSuccessState();
    }
    else if(event is CartRemoveProduct){
     yield CartLoadingState();
-    productList.asMap().forEach((i, value){
+    ListCheckoutProduct.productList.asMap().forEach((i, value){
       if(value.productCode == event.product.productCode && value.productQuantity > 0){
         value.productQuantity -= 1;
       }
@@ -87,8 +52,8 @@ class CartBloc extends Bloc<CartEvent,CartState> {
    }
    else if(event is CartRemoveAllProduct){
     yield CartLoadingState();
-    for(int i = productList.length - 1; i >= 0; i--){
-      productList.removeAt(i);
+    for(int i = ListCheckoutProduct.productList.length - 1; i >= 0; i--){
+      ListCheckoutProduct.productList.removeAt(i);
     }
     yield CartRemoveAllProductSuccessState();
    }
@@ -115,13 +80,17 @@ class CartLoadingState extends CartState {
 
 class CartFetchSuccessState extends CartState {
   final List<CheckoutProduct> productList;
+  final int totalPrice;
+  final int totalQuantity;
 
   CartFetchSuccessState({
     @required this.productList,
+    @required this.totalPrice,
+    @required this.totalQuantity,
   });
 
   @override
-  List<Object> get props => [productList];
+  List<Object> get props => [productList, totalPrice, totalQuantity];
 }
 
 class CartFetchFailedState extends CartState {
@@ -130,98 +99,6 @@ class CartFetchFailedState extends CartState {
 }
 
 class CartFetchData extends CartEvent {
-  @override
-  List<Object> get props => [];
-}
-
-class CartFetchTotalCartQuantitySuccessState extends CartState {
-  final int quantity;
-
-  CartFetchTotalCartQuantitySuccessState({
-    @required this.quantity,
-  });
-
-  @override
-  List<Object> get props => [quantity];
-}
-
-class CartFetchTotalCartQuantity extends CartEvent {
-  @override
-  List<Object> get props => [];
-}
-
-class CartFetchProductQuantitySuccessState extends CartState {
-  final int quantity;
-
-  CartFetchProductQuantitySuccessState({
-    @required this.quantity,
-  });
-
-  @override
-  List<Object> get props => [quantity];
-}
-
-class CartFetchProductQuantity extends CartEvent {
-  final CheckoutProduct product;
-
-  CartFetchProductQuantity({
-    @required this.product,
-  });
-
-  @override
-  List<Object> get props => [product];
-}
-
-class CartFetchTotalProductPriceSuccessState extends CartState {
-  final int totalProductPrice;
-
-  CartFetchTotalProductPriceSuccessState({
-    @required this.totalProductPrice,
-  });
-
-  @override
-  List<Object> get props => [totalProductPrice];
-}
-
-class CartFetchTotalProductPrice extends CartEvent {
-  final CheckoutProduct product;
-
-  CartFetchTotalProductPrice({
-    @required this.product,
-  });
-
-  @override
-  List<Object> get props => [product];
-}
-
-class CartFetchTotalPriceSuccessState extends CartState {
-  final int totalPrice;
-
-  CartFetchTotalPriceSuccessState({
-    @required this.totalPrice,
-  });
-
-  @override
-  List<Object> get props => [totalPrice];
-}
-
-class CartFetchTotalPrice extends CartEvent {
-  @override
-  List<Object> get props => [];
-}
-
-class CartCheckIfProductExistsSuccessState extends CartState {
-  final bool exists;
-
-  CartCheckIfProductExistsSuccessState({
-    @required this.exists,
-  });
-
-  @override
-  List<Object> get props => [exists];
-}
-
-class CartCheckIfProductExists extends CartEvent {
   @override
   List<Object> get props => [];
 }

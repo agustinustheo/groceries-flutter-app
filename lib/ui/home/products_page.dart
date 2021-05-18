@@ -15,9 +15,7 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
-  final CartBloc _cartBloc = new CartBloc();
-
-  Widget showPopUp(CartBloc _cartBloc){
+  Widget showPopUp(){
     return CheckoutPopUpCard(
       widget: SizedFlatButton(
         backgroundColor: Colors.blue[400],
@@ -35,6 +33,8 @@ class _ProductsPageState extends State<ProductsPage> {
   
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<CartBloc>(context)
+      ..add(CartFetchData());
     return Stack(
       children: [
         Scaffold(
@@ -46,8 +46,8 @@ class _ProductsPageState extends State<ProductsPage> {
           body: BlocBuilder<CartBloc, CartState>(
             builder: (context, state){
               bool exists = false;
-              if(state is CartFetchTotalCartQuantitySuccessState){
-                exists = state.quantity > 0;
+              if(state is CartFetchSuccessState){
+                exists = state.totalQuantity > 0;
               }
               return Container(
                 padding: EdgeInsets.only(
@@ -84,7 +84,18 @@ class _ProductsPageState extends State<ProductsPage> {
         ),
         Positioned(
           bottom: 0,
-          child: showPopUp(_cartBloc),
+          child: BlocBuilder<CartBloc, CartState>(
+            builder: (context, state){
+              bool exists = false;
+              if(state is CartFetchSuccessState){
+                exists = state.totalQuantity > 0;
+              }
+              if(exists){
+                return showPopUp();
+              }
+              return Container();
+            }
+          ),
         ),          
       ],
     );

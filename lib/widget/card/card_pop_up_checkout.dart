@@ -15,11 +15,9 @@ class CheckoutPopUpCard extends StatefulWidget {
 }
 
 class _CheckoutPopUpCardState extends State<CheckoutPopUpCard> {  
-  int totalPrice = -1;
+  int _totalPrice = -1;
   @override
   Widget build(BuildContext context){
-    BlocProvider.of<CartBloc>(context)
-      ..add(CartFetchTotalPrice());
     return Positioned(
       bottom: 0,
       child: Container(
@@ -46,10 +44,10 @@ class _CheckoutPopUpCardState extends State<CheckoutPopUpCard> {
         ),
         child: BlocBuilder<CartBloc, CartState>(
           builder: (context, state){
-            if(state is CartFetchTotalPriceSuccessState){
-              totalPrice = state.totalPrice;
+            if(state is CartFetchSuccessState){
+              _totalPrice = state.totalPrice;
             }
-            if(totalPrice == -1){
+            if(_totalPrice == -1){
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,7 +72,7 @@ class _CheckoutPopUpCardState extends State<CheckoutPopUpCard> {
                       fontWeight: FontWeight.bold,
                     ),
                     MontserratText(
-                      "Rp " + totalPrice.toString() + ",-",
+                      "Rp " + _totalPrice.toString() + ",-",
                       textAlign: TextAlign.center,
                       textColor: Colors.blue[400],
                       fontSize: Sizes.dp16(context),

@@ -156,10 +156,12 @@ class _CardProductButtonState extends State<CardProductButton>{
   CheckoutProduct _cartProduct;
   TextEditingController _controller;
   int _quantity = -1;
+  String _productId;
   
   @override
   void initState() {
     super.initState();
+    _productId = widget.product.productID;
     _cartProduct = new CheckoutProduct(
       widget.product.productID,
       widget.product.productCode,
@@ -180,20 +182,24 @@ class _CardProductButtonState extends State<CardProductButton>{
   
   @override
   Widget build(BuildContext context){
-    return BlocBuilder<CartBloc, CartState>(
+    return BlocBuilder<CartProductBloc, CartProductState>(
       builder: (context, state){
-        if(state is CartFetchProductQuantitySuccessState && state.quantity > 0){
-          _quantity = state.quantity;
-          _controller.text = _quantity.toString();
+        if(state is CartProductFetchDataSuccessState){
+          if(_productId == state.product.productID){
+            _quantity = state.productQuantity;
+            _controller.text = _quantity.toString();
+          }
         }
-        if(_quantity == -1){
+        if(_quantity == -1 || _quantity == 0){
           return OutlinedButton(
             onPressed: (){
               setState(() {
                 BlocProvider.of<CartBloc>(context)
                   ..add(CartAddProduct(product: _cartProduct))
-                  ..add(CartFetchProductQuantity(product: _cartProduct))
-                  ..add(CartFetchTotalCartQuantity());
+                  ..add(CartFetchData());
+
+                BlocProvider.of<CartProductBloc>(context)
+                  ..add(CartProductFetchData(product: _cartProduct));
               });
             }, 
             style: ButtonStyle(
@@ -243,8 +249,10 @@ class _CardProductButtonState extends State<CardProductButton>{
                   setState(() {
                     BlocProvider.of<CartBloc>(context)
                       ..add(CartRemoveProduct(product: _cartProduct))
-                      ..add(CartFetchProductQuantity(product: _cartProduct))
-                      ..add(CartFetchTotalCartQuantity());
+                      ..add(CartFetchData());
+
+                    BlocProvider.of<CartProductBloc>(context)
+                      ..add(CartProductFetchData(product: _cartProduct));
                   });
                 },
                 child: Container(
@@ -297,8 +305,10 @@ class _CardProductButtonState extends State<CardProductButton>{
                   setState(() {
                     BlocProvider.of<CartBloc>(context)
                       ..add(CartAddProduct(product: _cartProduct))
-                      ..add(CartFetchProductQuantity(product: _cartProduct))
-                      ..add(CartFetchTotalCartQuantity());
+                      ..add(CartFetchData());
+
+                    BlocProvider.of<CartProductBloc>(context)
+                      ..add(CartProductFetchData(product: _cartProduct));
                   });
                 },
                 child: Container(

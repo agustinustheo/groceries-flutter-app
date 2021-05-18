@@ -16,10 +16,12 @@ class CardProductSearch extends StatefulWidget {
 class _CardProductSearchState extends State<CardProductSearch> {
   CheckoutProduct _cartProduct;
   TextEditingController _controller;
+  String _productId;
   
   @override
   void initState() {
     super.initState();
+    _productId = widget.product.productID;
     _cartProduct = new CheckoutProduct(
       widget.product.productID,
       widget.product.productCode,
@@ -40,6 +42,8 @@ class _CardProductSearchState extends State<CardProductSearch> {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<CartProductBloc>(context)
+      ..add(CartProductFetchData(product: _cartProduct));
     return Container(
       margin: EdgeInsets.only(bottom: Sizes.dp16(context)),
       padding: EdgeInsets.all(Sizes.dp12(context)),
@@ -49,10 +53,12 @@ class _CardProductSearchState extends State<CardProductSearch> {
         ),
         borderRadius: BorderRadius.circular(15.0)
       ),
-      child: BlocBuilder<CartBloc, CartState>(
+      child: BlocBuilder<CartProductBloc, CartProductState>(
         builder: (context, state){
-          if(state is CartFetchProductQuantitySuccessState){
-            _controller.text = state.quantity.toString();
+          if(state is CartProductFetchDataSuccessState){
+            if(_productId == state.product.productID){
+              _controller.text = state.productQuantity.toString();
+            }
           }
 
           return Column(
@@ -127,8 +133,10 @@ class _CardProductSearchState extends State<CardProductSearch> {
                         setState(() {
                           BlocProvider.of<CartBloc>(context)
                             ..add(CartRemoveProduct(product: _cartProduct))
-                            ..add(CartFetchProductQuantity(product: _cartProduct))
-                            ..add(CartFetchTotalCartQuantity());
+                            ..add(CartFetchData());
+
+                          BlocProvider.of<CartProductBloc>(context)
+                            ..add(CartProductFetchData(product: _cartProduct));
                         });
                       },
                       child: Container(
@@ -181,8 +189,10 @@ class _CardProductSearchState extends State<CardProductSearch> {
                         setState(() {
                           BlocProvider.of<CartBloc>(context)
                             ..add(CartAddProduct(product: _cartProduct))
-                            ..add(CartFetchProductQuantity(product: _cartProduct))
-                            ..add(CartFetchTotalCartQuantity());
+                            ..add(CartFetchData());
+
+                          BlocProvider.of<CartProductBloc>(context)
+                            ..add(CartProductFetchData(product: _cartProduct));
                         });
                       },
                       child: Container(

@@ -34,10 +34,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget productBubble(BuildContext context){
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state){
-        if(state is CartFetchTotalCartQuantitySuccessState && state.quantity > 0){
-          _quantity = state.quantity;
+        if(state is CartFetchSuccessState){
+          _quantity = state.totalQuantity;
         }
-        if(_quantity == -1){
+        if(_quantity == -1 || _quantity == 0){
           return Container(
             width: Sizes.dp12(context),
             height: Sizes.dp12(context),

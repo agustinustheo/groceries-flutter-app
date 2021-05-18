@@ -13,13 +13,11 @@ class CardListCheckout extends StatelessWidget{
   Widget build(BuildContext context) {
     int _productQuantity = -1;
     int _productPrice = -1;
-    return BlocBuilder<CartBloc, CartState>(
+    return BlocBuilder<CartProductBloc, CartProductState>(
       builder: (context, state){
-        if(state is CartFetchProductQuantitySuccessState){
-          _productQuantity = state.quantity;
-        }
-        if(state is CartFetchTotalProductPriceSuccessState){
-          _productQuantity = state.totalProductPrice;
+        if(state is CartProductFetchDataSuccessState){
+          _productQuantity = state.productQuantity;
+          _productPrice = state.productPrice;
         }
         if(_productQuantity == -1 || _productPrice == -1){
           return CircularProgressIndicator();

@@ -15,11 +15,13 @@ void main() => runApp(
       ),
       BlocProvider(
         create: (_) => CartBloc()
-          ..add(CartFetchTotalCartQuantity())
           ..add(CartFetchData()),
       ),
       BlocProvider(
         create: (_) => SessionBloc(repository: SessionRepository())
+      ),
+      BlocProvider(
+        create: (_) => CartProductBloc()
       ),
     ],
     child: MyApp()

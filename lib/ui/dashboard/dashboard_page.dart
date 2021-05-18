@@ -7,7 +7,6 @@ import 'package:diantaraja_mobile/widget/text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_modul/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:repository/repository.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DashBoardPage extends StatefulWidget {
@@ -16,6 +15,7 @@ class DashBoardPage extends StatefulWidget {
 }
 
 class _DashBoardPageState extends State<DashBoardPage> with TickerProviderStateMixin {
+  int _totalQuantity = -1;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -36,14 +36,17 @@ class _DashBoardPageState extends State<DashBoardPage> with TickerProviderStateM
   Widget mainWidget(BuildContext context){
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
+        if(state is CartFetchSuccessState && state.totalQuantity > 0){
+          _totalQuantity = state.totalQuantity;
+        }
         return WillPopScope(
           onWillPop: () {
-            if(state is CartFetchTotalCartQuantitySuccessState && state.quantity > 0){
+            if(_totalQuantity > 0){
               return showAlert(
                 context: context,
                 alertType: AlertType.warning,
                 title: "Warning",
-                desc: "You have " + state.quantity.toString() + " products in your cart.\nAre you sure want to exit?",
+                desc: "You have " + _totalQuantity.toString() + " products in your cart.\nAre you sure want to exit?",
                 dialogs: [
                   DialogButton(
                     child: MontserratText(

@@ -24,8 +24,7 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<CartBloc>(context)
-      ..add(CartFetchData())
-      ..add(CartFetchTotalPrice());
+      ..add(CartFetchData());
     return Scaffold(
       appBar: AppBar(
         title: new Text(
@@ -58,7 +57,7 @@ class _CartPageState extends State<CartPage> {
             if(state is CartFetchSuccessState){
               products = state.productList;
             }
-            if(state is CartFetchTotalPriceSuccessState){
+            if(state is CartFetchSuccessState){
               totalPrice = state.totalPrice;
             }
 
