@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:diantaraja_mobile/common/debouncer.dart';
 import 'package:network/network.dart';
-import 'package:provider/provider.dart';
 import 'package:repository/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -29,30 +28,37 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
+  int _quantity = -1;
   final _debouncer = Debouncer(milliseconds: 500);
 
   Widget productBubble(BuildContext context){
-    CartBloc _cartBloc = new CartBloc();
-    if(_cartBloc.doesProductExists()){
-      return Container(
-        width: Sizes.dp14(context),
-        height: Sizes.dp14(context),
-        decoration: BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.circular(100.0)
-        ),
-        child: Center(
-          child: MontserratText(
-            _cartBloc.totalProductQuantity().toString(),
-            fontSize: Sizes.dp8(context),
-            textColor: Colors.white,
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state){
+        if(state is CartFetchTotalCartQuantitySuccessState && state.quantity > 0){
+          _quantity = state.quantity;
+        }
+        if(_quantity == -1){
+          return Container(
+            width: Sizes.dp12(context),
+            height: Sizes.dp12(context),
+          );
+        }
+        return Container(
+          width: Sizes.dp14(context),
+          height: Sizes.dp14(context),
+          decoration: BoxDecoration(
+            color: Colors.red,
+            borderRadius: BorderRadius.circular(100.0)
           ),
-        ),
-      );
-    }
-    return Container(
-      width: Sizes.dp12(context),
-      height: Sizes.dp12(context),
+          child: Center(
+            child: MontserratText(
+              _quantity.toString(),
+              fontSize: Sizes.dp8(context),
+              textColor: Colors.white,
+            ),
+          ),
+        );
+      }
     );
   }
 
@@ -191,10 +197,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   ),
                   Positioned(
                     right: 0,
-                    child: ChangeNotifierProvider<CartBloc>(
-                      create: (context) => CartBloc(),
-                      child: productBubble(context),
-                    ),
+                    child: productBubble(context),
                   ),
                 ]
               ),

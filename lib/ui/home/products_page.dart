@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:diantaraja_mobile/widget/app_bar/app_bar_home.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:repository/repository.dart';
 
 class ProductsPage extends StatefulWidget {
   @override
@@ -19,76 +18,75 @@ class _ProductsPageState extends State<ProductsPage> {
   final CartBloc _cartBloc = new CartBloc();
 
   Widget showPopUp(CartBloc _cartBloc){
-    if(_cartBloc.doesProductExists()){
-      return CheckoutPopUpCard(
-        cartBloc: _cartBloc,
-        widget: SizedFlatButton(
-          backgroundColor: Colors.blue[400],
-          child: MontserratText(
-            "Lanjutkan",
-            textAlign: TextAlign.center,
-            textColor: Colors.white,
-            fontSize: Sizes.dp16(context),
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1,
-          ),
+    return CheckoutPopUpCard(
+      widget: SizedFlatButton(
+        backgroundColor: Colors.blue[400],
+        child: MontserratText(
+          "Lanjutkan",
+          textAlign: TextAlign.center,
+          textColor: Colors.white,
+          fontSize: Sizes.dp16(context),
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1,
         ),
-      );
-    }
-    return Container();
+      ),
+    );
   }
   
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ListProductBloc(repository: ProductRepository())..add(ListProductFetchData()),
-      child: Stack(
-        children: [
-          Scaffold(
-            appBar: CustomAppBar(
-              isProductPage: true,
-              addBackButton: true,
-            ),
-            backgroundColor: Colors.white,
-            body: Container(
-              padding: EdgeInsets.only(
-                left: Sizes.dp28(context),
-                top: Sizes.dp10(context),
-                right: Sizes.dp28(context),
-                bottom: _cartBloc.doesProductExists() ? Sizes.dp54(context) : 0,
-              ),
-              child: BlocConsumer<ListProductBloc, ListProductState>(
-                listener: (context,state){},
-                builder: (context,state){
-                  if(state is ListProductFetchSuccessState){
-                    return ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: state.listProduct.listProduct.length,
-                      itemBuilder: (context, index) {
-                        return CardProductSearch(
-                          product: state.listProduct.listProduct[index]
-                        );
-                      }
-                    );
-                  }else if(state is ListProductFetchFailedState){
-                    return Text(
-                      "Error fetch data",
-                      style: TextStyle(color: Colors.red),
-                    );
-                  }else{
-                    return Center(child: CircularProgressIndicator(),
-                  );
-                  }
-                },
-              ),
-            ),
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: CustomAppBar(
+            isProductPage: true,
+            addBackButton: true,
           ),
-          Positioned(
-            bottom: 0,
-            child: showPopUp(_cartBloc),
-          ),          
-        ],
-      ),
+          backgroundColor: Colors.white,
+          body: BlocBuilder<CartBloc, CartState>(
+            builder: (context, state){
+              bool exists = false;
+              if(state is CartFetchTotalCartQuantitySuccessState){
+                exists = state.quantity > 0;
+              }
+              return Container(
+                padding: EdgeInsets.only(
+                  left: Sizes.dp28(context),
+                  top: Sizes.dp10(context),
+                  right: Sizes.dp28(context),
+                  bottom: exists ? Sizes.dp54(context) : 0,
+                ),
+                child: BlocBuilder<ListProductBloc, ListProductState>(
+                  builder: (context,state){
+                    if(state is ListProductFetchSuccessState){
+                      return ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: state.listProduct.listProduct.length,
+                        itemBuilder: (context, index) {
+                          return CardProductSearch(
+                            product: state.listProduct.listProduct[index]
+                          );
+                        }
+                      );
+                    }else if(state is ListProductFetchFailedState){
+                      return Text(
+                        "Error fetch data",
+                        style: TextStyle(color: Colors.red),
+                      );
+                    }else{
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
+              );
+            }
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          child: showPopUp(_cartBloc),
+        ),          
+      ],
     );
   }
 }

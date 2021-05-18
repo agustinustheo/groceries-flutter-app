@@ -12,7 +12,6 @@ import 'package:diantaraja_mobile/widget/app_bar/app_bar_home.dart';
 import 'package:diantaraja_mobile/widget/banner/banner_home.dart';
 import 'package:diantaraja_mobile/widget/card/card_list_shop.dart';
 import 'package:diantaraja_mobile/widget/header/space_header.dart';
-import 'package:repository/repository.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -70,94 +69,85 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ListProductBloc(repository: ProductRepository())..add(ListProductFetchData()),
-      child: Scaffold(
-        drawer: Drawer(),
-        appBar: CustomAppBar(
-          isProductPage: false,
-          addBackButton: false,
-        ),
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            NestedScrollView(
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                return <Widget>[
-                  SliverAppBar(
-                    backgroundColor: Colors.white,
-                    expandedHeight: Sizes.width(context) / 3,
-                    pinned: false,
-                    floating: true,
-                    leading: Container(),
-                    forceElevated: innerBoxIsScrolled,
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          InkWell(
-                            onTap: () {
-                              _showBannerDialog();
-                            },
-                            child: Hero(
-                              tag: 'banner-hero',
-                              child: BannerHome(),
-                            ),
+    return Scaffold(
+      drawer: Drawer(),
+      appBar: CustomAppBar(
+        isProductPage: false,
+        addBackButton: false,
+      ),
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  backgroundColor: Colors.white,
+                  expandedHeight: Sizes.width(context) / 3,
+                  pinned: false,
+                  floating: true,
+                  leading: Container(),
+                  forceElevated: innerBoxIsScrolled,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        InkWell(
+                          onTap: () {
+                            _showBannerDialog();
+                          },
+                          child: Hero(
+                            tag: 'banner-hero',
+                            child: BannerHome(),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ];
-              },
-              body: Container(
-                color: Colors.transparent,
-                height: Sizes.height(context),
-                width: Sizes.width(context),
-                child: EasyRefresh(
-                  header: SpaceHeader(),
-                  onRefresh: () async {},
-                  onLoad: null,
-                  child: BlocConsumer<ListProductBloc, ListProductState>(
-                    listener: (context,state){},
-                    builder: (context,state){
-                      if(state is ListProductFetchSuccessState){
-                        return StaggeredGridView.countBuilder(
-                          shrinkWrap: true,
-                          primary: false,
-                          crossAxisCount: 4,
-                          mainAxisSpacing: 4.0,
-                          crossAxisSpacing: 4.0,
-                          itemCount: state.listProduct.listProduct.length,
-                          itemBuilder: (context, index) {
-                            return CardListShop(
-                              width: state.listProduct.listProduct[index].productImageWidth,
-                              height: state.listProduct.listProduct[index].productImageHeight,
-                              urlProductImage: state.listProduct.listProduct[index].productImage,
-                              urlBrandImage: state.listProduct.listProduct[index].brandImage,
-                              productName: state.listProduct.listProduct[index].productName,
-                              price: state.listProduct.listProduct[index].productPrice.toString(),
-                            );
-                          },
-                          staggeredTileBuilder: (index) => StaggeredTile.fit(2),
-                        );
-                      }else if(state is ListProductFetchFailedState){
-                        return Text(
-                          "Error fetch data",
-                          style: TextStyle(color: Colors.red),
-                        );
-                      }else{
-                        return Center(child: CircularProgressIndicator(),
-                        );
-                      }
-                    },
-                  ),
+                ),
+              ];
+            },
+            body: Container(
+              color: Colors.transparent,
+              height: Sizes.height(context),
+              width: Sizes.width(context),
+              child: EasyRefresh(
+                header: SpaceHeader(),
+                onRefresh: () async {},
+                onLoad: null,
+                child: BlocBuilder<ListProductBloc, ListProductState>(
+                  builder: (context,state){
+                    if(state is ListProductFetchSuccessState){
+                      return StaggeredGridView.countBuilder(
+                        shrinkWrap: true,
+                        primary: false,
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 4.0,
+                        crossAxisSpacing: 4.0,
+                        itemCount: state.listProduct.listProduct.length,
+                        itemBuilder: (context, index) {
+                          return CardListShop(
+                            product: state.listProduct.listProduct[index],
+                          );
+                        },
+                        staggeredTileBuilder: (index) => StaggeredTile.fit(2),
+                      );
+                    }else if(state is ListProductFetchFailedState){
+                      return Text(
+                        "Error fetch data",
+                        style: TextStyle(color: Colors.red),
+                      );
+                    }else{
+                      return Center(child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
                 ),
               ),
             ),
-          ]
-        ),
+          ),
+        ]
       ),
     );
   }

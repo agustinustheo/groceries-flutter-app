@@ -16,16 +16,10 @@ class DashBoardPage extends StatefulWidget {
 }
 
 class _DashBoardPageState extends State<DashBoardPage> with TickerProviderStateMixin {
-  int _page = 0;
-
-  final List<Widget> _list = [
-    HomePage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SessionBloc(repository: SessionRepository())..add(SessionFetchData()),
+      create: (_) => BlocProvider.of<SessionBloc>(context)..add(SessionFetchData()),
       child: BlocConsumer<SessionBloc, SessionState>(
         listener: (context,state){
           if(state is SessionFetchFailedState){
@@ -40,44 +34,47 @@ class _DashBoardPageState extends State<DashBoardPage> with TickerProviderStateM
   }
 
   Widget mainWidget(BuildContext context){
-    return WillPopScope(
-      onWillPop: () {
-        CartBloc _cartBloc = new CartBloc();
-        if(_cartBloc.totalProductQuantity() > 0){
-          return showAlert(
-            context: context,
-            alertType: AlertType.warning,
-            title: "Warning",
-            desc: "You have " + _cartBloc.totalProductQuantity().toString() + " products in your cart.\nAre you sure want to exit?",
-            dialogs: [
-              DialogButton(
-                child: MontserratText(
-                  "No",
-                  textColor: Colors.white,
-                  fontWeight: FontWeight.bold
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-                width: 120,
-              ),
-              DialogButton(
-                child: MontserratText(
-                  "Yes",
-                  textColor: Colors.white,
-                  fontWeight: FontWeight.bold
-                ),
-                onPressed: () => exit(0),
-                width: 120,
-              )
-            ],
-          );
-        }
-        else{
-          exit(0);
-        }
-      },
-      child: Scaffold(
-        body: _list[_page],
-      ),
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state) {
+        return WillPopScope(
+          onWillPop: () {
+            if(state is CartFetchTotalCartQuantitySuccessState && state.quantity > 0){
+              return showAlert(
+                context: context,
+                alertType: AlertType.warning,
+                title: "Warning",
+                desc: "You have " + state.quantity.toString() + " products in your cart.\nAre you sure want to exit?",
+                dialogs: [
+                  DialogButton(
+                    child: MontserratText(
+                      "No",
+                      textColor: Colors.white,
+                      fontWeight: FontWeight.bold
+                    ),
+                    onPressed: () => Navigator.of(context).pop(),
+                    width: 120,
+                  ),
+                  DialogButton(
+                    child: MontserratText(
+                      "Yes",
+                      textColor: Colors.white,
+                      fontWeight: FontWeight.bold
+                    ),
+                    onPressed: () => exit(0),
+                    width: 120,
+                  )
+                ],
+              );
+            }
+            else{
+              exit(0);
+            }
+          },
+          child: Scaffold(
+            body: HomePage(),
+          ),
+        );
+      }
     );
   }
 }
