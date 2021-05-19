@@ -69,6 +69,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<CartBloc>(context)
+      ..add(CartFetchData());
     return Scaffold(
       drawer: Drawer(),
       appBar: CustomAppBar(
