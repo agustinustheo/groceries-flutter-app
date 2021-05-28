@@ -1,13 +1,7 @@
 import 'package:bloc_modul/bloc.dart';
-import 'package:diantaraja_mobile/common/navigation.dart';
-import 'package:diantaraja_mobile/ui/cart/cart.dart';
-import 'package:diantaraja_mobile/ui/home/products_page.dart';
 import 'package:flutter/material.dart';
-import 'package:diantaraja_mobile/common/sizes.dart';
-import 'package:network/network.dart';
 import 'package:repository/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:bloc_modul/bloc/home/list_product_bloc.dart';
 
 class ProductAppBar extends StatefulWidget implements PreferredSizeWidget {

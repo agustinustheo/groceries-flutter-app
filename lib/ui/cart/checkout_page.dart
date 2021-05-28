@@ -1,6 +1,6 @@
 import 'package:bloc_modul/bloc.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
-import 'package:diantaraja_mobile/ui/cart/delivery.dart';
+import 'package:diantaraja_mobile/ui/cart/delivery_page.dart';
 import 'package:diantaraja_mobile/widget/button/custom_button.dart';
 import 'package:diantaraja_mobile/widget/card/card_list_checkout.dart';
 import 'package:diantaraja_mobile/widget/text/custom_text.dart';
@@ -28,7 +28,7 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       appBar: AppBar(
         title: new Text(
-          'Keranjang',
+          'Checkout',
           style: TextStyle(
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.w600
