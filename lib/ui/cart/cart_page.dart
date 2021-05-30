@@ -39,7 +39,8 @@ class _ProductsPageState extends State<ProductsPage> {
       children: [
         Scaffold(
           appBar: CustomAppBar(
-            isProductPage: true,
+            titleText: 'Cart',
+            isHomePage: false,
             addBackButton: true,
           ),
           backgroundColor: Colors.white,

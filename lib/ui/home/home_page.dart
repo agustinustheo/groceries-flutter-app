@@ -19,6 +19,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   void _showBannerDialog() {
     Navigator.push(
@@ -74,7 +83,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: Drawer(),
       appBar: CustomAppBar(
-        isProductPage: false,
+        titleText: 'Home Page',
+        isHomePage: true,
         addBackButton: false,
       ),
       backgroundColor: Colors.white,

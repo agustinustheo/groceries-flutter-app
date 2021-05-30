@@ -1,11 +1,8 @@
 import 'package:bloc_modul/bloc.dart';
 import 'package:bloc_modul/bloc/cart/cart_bloc.dart';
-import 'package:bloc_modul/bloc/home/list_product_bloc.dart';
-import 'package:diantaraja_mobile/common/navigation.dart';
-import 'package:diantaraja_mobile/ui/dashboard/dashboard_page.dart';
+import 'package:diantaraja_mobile/widget/app_bar/app_bar_home.dart';
 import 'package:diantaraja_mobile/widget/button/custom_button.dart';
 import 'package:diantaraja_mobile/widget/card/card_detail_product_pop_up.dart';
-import 'package:diantaraja_mobile/widget/card/card_product_search.dart';
 import 'package:diantaraja_mobile/widget/text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
@@ -55,14 +52,12 @@ class _DetailProductsPageState extends State<DetailProductsPage> {
         children: <Widget>[
           InkWell(
             onTap: (){
-              setState(() {
-                BlocProvider.of<CartBloc>(context)
-                  ..add(CartRemoveProduct(product: _cartProduct))
-                  ..add(CartFetchData());
+              BlocProvider.of<CartBloc>(context)
+                ..add(CartRemoveProduct(product: _cartProduct))
+                ..add(CartFetchData());
 
-                BlocProvider.of<CartProductBloc>(context)
-                  ..add(CartProductFetchData(product: _cartProduct));
-              });
+              BlocProvider.of<CartProductBloc>(context)
+                ..add(CartProductFetchData(product: _cartProduct));
             },
             child: Container(
               width: Sizes.dp24(context),
@@ -108,14 +103,12 @@ class _DetailProductsPageState extends State<DetailProductsPage> {
           ),
           InkWell(
             onTap: (){
-              setState(() {
-                BlocProvider.of<CartBloc>(context)
-                  ..add(CartAddProduct(product: _cartProduct))
-                  ..add(CartFetchData());
+              BlocProvider.of<CartBloc>(context)
+                ..add(CartAddProduct(product: _cartProduct))
+                ..add(CartFetchData());
 
-                BlocProvider.of<CartProductBloc>(context)
-                  ..add(CartProductFetchData(product: _cartProduct));
-              });
+              BlocProvider.of<CartProductBloc>(context)
+                ..add(CartProductFetchData(product: _cartProduct));
             },
             child: Container(
               width: Sizes.dp24(context),
@@ -147,14 +140,10 @@ class _DetailProductsPageState extends State<DetailProductsPage> {
     BlocProvider.of<CartProductBloc>(context)
       ..add(CartProductFetchData(product: _cartProduct));
     return Scaffold(
-      appBar: AppBar(
-        title: new Text(
-          'Detail Product',
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w600
-          ),
-        ),
+      appBar: CustomAppBar(
+        titleText: 'Detail Product',
+        isHomePage: false,
+        addBackButton: true,
       ),
       backgroundColor: Colors.white,
       body: Stack(

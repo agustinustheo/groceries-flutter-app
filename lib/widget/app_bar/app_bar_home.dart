@@ -1,7 +1,6 @@
 import 'package:bloc_modul/bloc.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
 import 'package:diantaraja_mobile/ui/cart/checkout_page.dart';
-import 'package:diantaraja_mobile/ui/cart/cart_page.dart';
 import 'package:diantaraja_mobile/widget/text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
@@ -12,16 +11,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  CustomAppBar({Key key, this.isProductPage, this.addBackButton})
+  CustomAppBar({Key key, this.isHomePage, this.titleText, this.addBackButton})
       : preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
 
   @override
   final Size preferredSize; // default is 56.0
 
-  final bool isProductPage;
+  final bool isHomePage;
   final bool addBackButton;
   final Color appBarColor = Colors.blue[400];
+  final String titleText;
 
   @override
   _CustomAppBarState createState() => _CustomAppBarState();
@@ -62,6 +62,52 @@ class _CustomAppBarState extends State<CustomAppBar> {
     );
   }
 
+  Widget appBarTitle(){
+    if(widget.isHomePage){
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          color: Colors.white,
+          border: Border.all(color: Colors.white),
+        ),
+        child: Container(
+          height: Sizes.width(context) / 13,
+          width: Sizes.width(context) / 2,
+          child: TextField(
+            textInputAction: TextInputAction.search,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Cari ...",
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.blue[400],
+                  ),
+                  hintStyle: TextStyle(
+                    fontSize: 14.5,
+                    color: Colors.grey,
+                  ),
+              ),
+            onChanged: (text) {
+                _debouncer.run(() {
+                  BlocProvider.of<ListProductBloc>(context)
+                    .add(SearchData(text: text.toString()));
+                  BlocProvider.of<CartBloc>(context)
+                    .add(CartFetchData());
+                }
+              );
+            },
+          ),
+        ),
+      );
+    }
+    return Text(
+      widget.titleText,
+      style: TextStyle(
+        fontFamily: 'Montserrat',
+        fontWeight: FontWeight.w600
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -88,99 +134,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ),
         ),
         elevation: 0,
-        title: widget.isProductPage
-            ? DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  color: Colors.white,
-                  border: Border.all(color: Colors.white),
-                ),
-                child: Container(
-                  height: Sizes.width(context) / 13,
-                  width: Sizes.width(context) / 2,
-                  child: TextField(
-                    textInputAction: TextInputAction.search,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Cari ...",
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: Colors.blue[400],
-                          ),
-                          hintStyle: TextStyle(
-                            fontSize: 14.5,
-                            color: Colors.grey,
-                          ),
-                      ),
-                    onChanged: (text) {
-                       _debouncer.run(() => 
-                        BlocProvider.of<ListProductBloc>(context)
-                          .add(SearchData(text: text.toString()))
-                      );
-                    },
-                  ),
-                ),
-              )
-            : null,
+        title: appBarTitle(),
         actions: <Widget>[
-          if (widget.isProductPage == false)
-            InkWell(
-              onTap: () {
-                Navigation.intent(context, ProductsPage());
-              },
-              child: Container(
-                margin: EdgeInsets.only(right: Sizes.dp25(context)),
-                padding: EdgeInsets.all(4.0),
-                child: Row(
-                  children: <Widget>[
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      children: <Widget>[
-                        DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                            color: Colors.white,
-                            border: Border.all(color: Colors.white),
-                          ),
-                          child: Container(
-                            height: Sizes.width(context) / 13,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.all(4.0),
-                            width: Sizes.width(context) / 2,
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  margin:
-                                      EdgeInsets.only(right: 4.0, left: 6.0),
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    Icons.search,
-                                    size: 14.0,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 6.0),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Mau belanja apa hari ini?',
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
           InkWell(
             onTap: () {
               Navigation.intent(context, CartPage());
