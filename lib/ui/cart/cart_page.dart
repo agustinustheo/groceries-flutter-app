@@ -17,6 +17,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  bool _exists = false;
 
   Widget showPopUp(int _totalPrice){
     return CheckoutPopUpCard(
@@ -70,45 +71,41 @@ class _CartPageState extends State<CartPage> {
                   fontWeight: FontWeight.bold,
                 ),
                 SizedBox(height: Sizes.dp14(context)),
-                BlocBuilder<CartBloc, CartState>(
-                  builder: (context, state){
-                    bool exists = false;
-                    if(state is CartFetchSuccessState){
-                      exists = state.totalQuantity > 0;
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: _exists ? Sizes.dp54(context) : 0,
+                  ),
+                  child: BlocBuilder<CartBloc, CartState>(
+                    builder: (context, state){
+                      if(state is CartFetchSuccessState){
+                        _exists = state.totalQuantity > 0;
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.productList.length,
+                          itemBuilder: (context, index) {
+                            if(state.productList[index].productQuantity > 0){
+                              return CardProductSearch(
+                                product: state.productList[index]
+                              );
+                            }
+                            return Container();
+                          }
+                        );
+                      }
+                      else if(state is ListProductFetchFailedState){
+                        return Text(
+                          "Error fetch data",
+                          style: TextStyle(color: Colors.red),
+                        );
+                      }
+                      else{
+                        return Center(child: CircularProgressIndicator());
+                      }
                     }
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: exists ? Sizes.dp54(context) : 0,
-                      ),
-                      child: BlocBuilder<ListProductBloc, ListProductState>(
-                        builder: (context, state){
-                          if(state is ListProductFetchSuccessState){
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: state.listProduct.listProduct.length,
-                              itemBuilder: (context, index) {
-                                return CardProductSearch(
-                                  product: state.listProduct.listProduct[index]
-                                );
-                              }
-                            );
-                          }
-                          else if(state is ListProductFetchFailedState){
-                            return Text(
-                              "Error fetch data",
-                              style: TextStyle(color: Colors.red),
-                            );
-                          }
-                          else{
-                            return Center(child: CircularProgressIndicator());
-                          }
-                        },
-                      ),
-                    );
-                  }
+                  ),
                 ),
-              ],
+              ]
             ),
           ),
         ),
