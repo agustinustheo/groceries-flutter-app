@@ -12,12 +12,12 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-class CartPage extends StatefulWidget {
+class CheckoutPage extends StatefulWidget {
   @override
-  _CartPageState createState() => _CartPageState();
+  _CheckoutPageState createState() => _CheckoutPageState();
 }
 
-class _CartPageState extends State<CartPage> {
+class _CheckoutPageState extends State<CheckoutPage> {
   List<CheckoutProduct> products = List<CheckoutProduct>();
   int totalPrice = -1;
 

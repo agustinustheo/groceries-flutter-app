@@ -1,6 +1,6 @@
 import 'package:bloc_modul/bloc.dart';
 import 'package:diantaraja_mobile/common/navigation.dart';
-import 'package:diantaraja_mobile/ui/cart/checkout_page.dart';
+import 'package:diantaraja_mobile/ui/cart/cart_page.dart';
 import 'package:diantaraja_mobile/widget/text/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
@@ -108,6 +108,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       ),
     );
   }
+  
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

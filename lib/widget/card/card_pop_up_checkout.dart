@@ -1,21 +1,18 @@
-import 'package:bloc_modul/bloc/cart/cart_bloc.dart';
 import 'package:diantaraja_mobile/common/sizes.dart';
 import 'package:diantaraja_mobile/widget/text/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bloc_modul/bloc.dart';
 
 class CheckoutPopUpCard extends StatefulWidget {
   final Widget widget;
-  const CheckoutPopUpCard({Key key, this.widget}) : super(key: key);
+  final int totalPrice;
+  const CheckoutPopUpCard({Key key, this.widget, @required this.totalPrice}) : super(key: key);
 
   @override
   _CheckoutPopUpCardState createState() => _CheckoutPopUpCardState();
 }
 
-class _CheckoutPopUpCardState extends State<CheckoutPopUpCard> {  
-  int _totalPrice = -1;
+class _CheckoutPopUpCardState extends State<CheckoutPopUpCard> {
   @override
   Widget build(BuildContext context){
     return Positioned(
@@ -42,49 +39,33 @@ class _CheckoutPopUpCardState extends State<CheckoutPopUpCard> {
             )
           )
         ),
-        child: BlocBuilder<CartBloc, CartState>(
-          builder: (context, state){
-            if(state is CartFetchSuccessState){
-              _totalPrice = state.totalPrice;
-            }
-            if(_totalPrice == -1){
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(),
-                ],
-              );
-            }
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MontserratText(
-                      "Total Pembayaran",
-                      textAlign: TextAlign.center,
-                      textColor: Colors.black,
-                      fontSize: Sizes.dp16(context),
-                      fontWeight: FontWeight.bold,
-                    ),
-                    MontserratText(
-                      "Rp " + _totalPrice.toString() + ",-",
-                      textAlign: TextAlign.center,
-                      textColor: Colors.blue[400],
-                      fontSize: Sizes.dp16(context),
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
-                    ),
-                  ],
+                MontserratText(
+                  "Total Pembayaran",
+                  textAlign: TextAlign.center,
+                  textColor: Colors.black,
+                  fontSize: Sizes.dp16(context),
+                  fontWeight: FontWeight.bold,
                 ),
-                this.widget.widget
+                MontserratText(
+                  "Rp " + widget.totalPrice.toString() + ",-",
+                  textAlign: TextAlign.center,
+                  textColor: Colors.blue[400],
+                  fontSize: Sizes.dp16(context),
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
               ],
-            );
-          }
+            ),
+            this.widget.widget
+          ],
         ),
       ),
     );
